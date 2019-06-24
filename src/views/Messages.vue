@@ -1,5 +1,11 @@
 <template>
   <div class="main">
+    <div>
+      <van-tabs @click="choseType">
+        <van-tab title="未读"></van-tab>
+        <van-tab title="所有消息"></van-tab>
+      </van-tabs>
+    </div>
    <div class="notice-list">
       <ul>
         <li :key="index" v-for="(item, index) in [1,2,3,4,5,6,7,8,9,10,11,12,13,14]">
@@ -28,6 +34,16 @@ export default {
   name: 'messages',
   components: {
 
+  },
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+    choseType(index, title) {
+      alert(index)
+    }
   }
 }
 </script>

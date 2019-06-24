@@ -11,7 +11,7 @@
       </template>
 
       <template v-else-if="path === '/index/myCenter'">
-        <van-icon size="20" name="edit" slot="right" @click="goEditInfo()"/>
+        <!--<van-icon size="20" name="edit" slot="right" @click="goEditInfo()"/>-->
       </template>
 
       <template v-else-if="path === '/index/messages'">

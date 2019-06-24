@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition>
+    <transition name="fade">
       <router-view/>
     </transition>
   </div>
@@ -18,5 +18,13 @@
   -moz-osx-font-smoothing: grayscale;
   color: #101010;
   font-size: 14px;
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
 }
+
 </style>
