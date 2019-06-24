@@ -27,7 +27,7 @@ export default {
   props: [],
   data() {
     return {
-      title: "玖久易养2",
+      title: "玖久易养",
       path: "",
       value: 0,
       option1: [
