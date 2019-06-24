@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-   主页
+  <div class="main">
+   我的
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 
 export default {
-  name: 'home',
+  name: 'myCenter',
   components: {
     
   }
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .home {
+  .main {
     height: 1000px;
     background: yellow
   }
