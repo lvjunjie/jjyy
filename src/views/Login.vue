@@ -29,13 +29,13 @@
 
 <script>
 export default {
-  name: "login",
-  data() {
+  name: 'login',
+  data () {
     return {
       msg: 1111
-    };
+    }
   }
-};
+}
 </script>
 <style scoped lang="less">
 .logo-space {
@@ -81,7 +81,7 @@ export default {
     color: #fff;
     border-radius: 2.4rem;
     background: #1989fa;
-    
+
     &:disabled {
       background: #6f6f6f;
     }

@@ -6,11 +6,10 @@
 
 <script>
 
-
 export default {
   name: 'myCenter',
   components: {
-    
+
   }
 }
 </script>
@@ -21,4 +20,3 @@ export default {
     background: yellow
   }
 </style>
-

@@ -10,44 +10,43 @@
 
 <script>
 export default {
-  name: "footerSpace",
-  data() {
+  name: 'footerSpace',
+  data () {
     return {
       menuList: [
-        { name: "首页", title:'玖久易养', path: "/index/home", icon: "wap-home", active: false},
-        { name: "消息中心", path: "/index/messages", icon: "volume-o", active: false},
-        { name: "我的", path: "/index/myCenter", icon: "contact", active: false}
+        { name: '首页', title: '玖久易养', path: '/index/home', icon: 'wap-home', active: false },
+        { name: '消息中心', path: '/index/messages', icon: 'volume-o', active: false },
+        { name: '我的', path: '/index/myCenter', icon: 'contact', active: false }
       ]
-    };
+    }
   },
   watch: {
-      '$route.path': {
-          handler( newVal ) {
-              this.menuList.forEach((item)=>{
-                  item.active = false;
-                  if(item.path === newVal) {
-                      item.active = true
+    '$route.path': {
+      handler (newVal) {
+        this.menuList.forEach((item) => {
+          item.active = false
+          if (item.path === newVal) {
+            item.active = true
 
-                      // 发送事件, 切换顶部标题
-                      this.$eventBus.$emit('handleHeader', {
-                          path: item.path,
-                          title: item.title || item.name
-                      })
-                  }
-              })
-          },
-          immediate: true
-      }
+            // 发送事件, 切换顶部标题
+            this.$eventBus.$emit('handleHeader', {
+              path: item.path,
+              title: item.title || item.name
+            })
+          }
+        })
+      },
+      immediate: true
+    }
   },
   methods: {
-      choseMenu (item) {
-        // 路由跳转
-        this.$router.push({ path: item.path })
-        
-      }
+    choseMenu (item) {
+      // 路由跳转
+      this.$router.push({ path: item.path })
+    }
   },
-  mounted() {}
-};
+  mounted () {}
+}
 </script>
 <style lang="less" scoped>
 .footer {
@@ -83,4 +82,3 @@ export default {
   }
 }
 </style>
-
