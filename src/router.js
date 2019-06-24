@@ -34,6 +34,13 @@ export default new Router({
           path: '/index/myCenter',
           name: 'myCenter',
           component: () => import('@/views/MyCenter.vue')
+        }, {
+          path: '/index/hisRoute',
+          name: 'hisRoute',
+          meta: {
+            hideFooter: true
+          },
+          component: () => import('@/views/HistoricalRoute.vue')
         }
       ]
     },

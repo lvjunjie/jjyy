@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footer" v-if="showFooter">
     <div class="menu-item" :key="index" v-for="(item, index) in menuList" @click="choseMenu(item)">
       <van-icon size="20px" :color="item.active?'#029CFF':'#a8a8a8'" :name="item.icon"/>
       <label :class="[item.active?'active':'']">{{item.name}}</label>
@@ -13,6 +13,7 @@ export default {
   name: 'footerSpace',
   data () {
     return {
+      showFooter: false,
       menuList: [
         { name: '首页', title: '玖久易养', path: '/index/home', icon: 'wap-home', active: false },
         { name: '消息中心', path: '/index/messages', icon: 'volume-o', active: false },
@@ -23,11 +24,12 @@ export default {
   watch: {
     '$route.path': {
       handler (newVal) {
+        this.showFooter = false
         this.menuList.forEach((item) => {
           item.active = false
           if (item.path === newVal) {
             item.active = true
-
+            this.showFooter = true
             // 发送事件, 切换顶部标题
             this.$eventBus.$emit('handleHeader', {
               path: item.path,
