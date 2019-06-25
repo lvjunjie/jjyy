@@ -9,12 +9,20 @@
         <div class="danger">不正常</div>
       </div>
     </div>
+
+    <div class="echart-space">
+      <chart-display></chart-display>
+    </div>
   </div>
 </template>
 
 <script>
+import ChartDisplay from "@/components/ChartDisplay";
 export default {
   name: "dataDetail",
+  components: {
+    ChartDisplay
+  },
   data() {
     return {};
   },
@@ -88,6 +96,13 @@ export default {
       }
     }
   }
+}
+
+.echart-space {
+  padding: 10px;
+  width: 100%;
+  height: calc(~'100vh - 22rem');
+  // background: yellow
 }
 </style>
 

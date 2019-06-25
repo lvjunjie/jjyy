@@ -13,21 +13,21 @@
 </template>
 
 <script>
-import HeaderSpace from '@/components/HeaderSpace'
-import FooterSpace from '@/components/FooterSpace'
+import HeaderSpace from "@/components/HeaderSpace";
+import FooterSpace from "@/components/FooterSpace";
 
 export default {
-  name: 'index',
+  name: "index",
   components: {
     HeaderSpace,
     FooterSpace
   },
-  data () {
-    return {}
+  data() {
+    return {};
   },
   methods: {},
-  mounted () {}
-}
+  mounted() {}
+};
 </script>
 
 <style lang="less" scoped>
@@ -36,4 +36,11 @@ export default {
   margin-bottom: 46px;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>
