@@ -4,7 +4,7 @@
       <ul>
         <li v-for="item in 4">
           <div class="left">
-           <img src="../assets/logo.png"/>
+           <img src="../assets/temp.jpg"/>
           </div>
           <div class="right">
             <div class="title-space">

@@ -4,6 +4,10 @@
       <div class="info-space health">
         <h2>98/120</h2>
       </div>
+      <div class="tip-space">
+        <div class="health">正常</div>
+        <div class="danger">不正常</div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,16 +30,17 @@ export default {
     });
   }
 };
-</script>ß
+</script>
 <style lang="less" scoped>
 .data-detail {
 }
 .top-info {
-  height: 40vh;
+  height: 16rem;
   background: #eeeeee;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   .info-space {
     width: 9rem;
@@ -45,6 +50,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -10px;
 
     h2 {
       font-size: 2rem;
@@ -56,6 +62,30 @@ export default {
     }
     &.danger {
       background: linear-gradient(#f36225, #e00606);
+    }
+  }
+
+  .tip-space {
+    display: flex;
+    justify-content: center;
+    font-size: 10px;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80vw;
+
+    & > div {
+      border-left: 50px solid red;
+      padding-left: 10px;
+      margin: 0 10px;
+
+      &.health {
+        border-left-color: #0eaeef;
+      }
+      &.danger {
+        border-left-color: #e00606;
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="home">
     <div class="base-info">
       <div class="photo">
-        <img src="../assets/logo.png">
+        <img src="../assets/temp.jpg">
       </div>
       <h5>苏大强 68</h5>
       <h5>2018-05-02 13:33:12</h5>
