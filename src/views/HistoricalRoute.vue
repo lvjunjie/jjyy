@@ -31,7 +31,7 @@ export default {
       console.log(BMap, map)
       this.center.lng = 116.404
       this.center.lat = 39.915
-      this.zoom = 15
+      this.zoom = 14
     }
   },
   mounted() {}
