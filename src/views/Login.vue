@@ -22,20 +22,28 @@
         </div>
       </div>
 
-      <button>登录</button>
+      <button @click="login()">登录</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'login',
-  data () {
+  name: "login",
+  data() {
     return {
       msg: 1111
+    };
+  },
+  methods: {
+    login() {
+      // login check
+
+      const path = "/index/home";
+      this.$router.push(path);
     }
   }
-}
+};
 </script>
 <style scoped lang="less">
 .logo-space {

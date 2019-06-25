@@ -20,7 +20,7 @@
 
     <div class="link-space">
       <van-cell-group>
-        <van-cell title="关于我们" is-link />
+        <van-cell title="关于我们" is-link  @click="goAbout()"/>
       </van-cell-group>
     </div>
   </div>
@@ -32,7 +32,12 @@ export default {
   name: 'myCenter',
   components: {
 
-  }
+  },
+  methods: {
+    goAbout() {
+      this.$router.push('/index/about')
+    }
+  },
 }
 </script>
 

@@ -4,51 +4,68 @@
       <van-icon size="20px" :color="item.active?'#029CFF':'#a8a8a8'" :name="item.icon"/>
       <label :class="[item.active?'active':'']">{{item.name}}</label>
     </div>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'footerSpace',
-  data () {
+  name: "footerSpace",
+  data() {
     return {
-      showFooter: false,
+      showFooter: true,
       menuList: [
-        { name: '首页', title: '玖久易养', path: '/index/home', icon: 'wap-home', active: false },
-        { name: '消息中心', path: '/index/messages', icon: 'volume-o', active: false },
-        { name: '我的', path: '/index/myCenter', icon: 'contact', active: false }
+        {
+          name: "首页",
+          title: "玖久易养",
+          path: "/index/home",
+          icon: "wap-home",
+          active: false
+        },
+        {
+          name: "消息中心",
+          path: "/index/messages",
+          icon: "volume-o",
+          active: false
+        },
+        {
+          name: "我的",
+          path: "/index/myCenter",
+          icon: "contact",
+          active: false
+        }
       ]
-    }
+    };
   },
   watch: {
-    '$route.path': {
-      handler (newVal) {
-        this.showFooter = false
-        this.menuList.forEach((item) => {
-          item.active = false
-          if (item.path === newVal) {
-            item.active = true
-            this.showFooter = true
-            // 发送事件, 切换顶部标题
-            this.$eventBus.$emit('handleHeader', {
-              path: item.path,
-              title: item.title || item.name
-            })
-          }
-        })
+    "$route.path": {
+      handler(newVal) {
+        this.menuList.forEach(item => {
+          item.active = false;
+        });
+
+        const menuItem = this.menuList.find(item => {
+          return item.path === newVal;
+        });
+
+        if (menuItem) {
+          this.showFooter = true;
+          menuItem.active = true;
+        } else {
+          this.showFooter = false;
+        }
       },
       immediate: true
     }
   },
   methods: {
-    choseMenu (item) {
+    choseMenu(item) {
       // 路由跳转
-      this.$router.push({ path: item.path })
+      this.$router.push({ path: item.path });
     }
   },
-  mounted () {}
-}
+  created() {},
+  mounted() {}
+};
 </script>
 <style lang="less" scoped>
 .footer {
@@ -77,10 +94,9 @@ export default {
       font-size: 12px;
 
       &.active {
-        color: #029CFF
+        color: #029cff;
       }
     }
-
   }
 }
 </style>
