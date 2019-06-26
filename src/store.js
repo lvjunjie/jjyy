@@ -5,9 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    accessToken: '',
-    expireInSeconds: '',
-    endSeconds: ''
+    accessToken: JSON.parse(sessionStorage.getItem('accessToken')) || '',
+    expireInSeconds: JSON.parse(sessionStorage.getItem('expireInSeconds')) || '',
+    endSeconds: JSON.parse(sessionStorage.getItem('endSeconds')) || ''
 
   },
   getters: {
@@ -19,6 +19,7 @@ export default new Vuex.Store({
     updateState (state, payload) {
       for (const key in payload) {
         state[key] = payload[key]
+        sessionStorage.setItem(key, JSON.stringify(payload[key]))
       }
     }
   },
