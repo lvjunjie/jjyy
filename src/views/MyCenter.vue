@@ -21,13 +21,14 @@
     <div class="link-space">
       <van-cell-group>
         <van-cell title="关于我们" is-link  @click="goAbout()"/>
+        <van-cell title="退出登录" is-link  @click="checkOut()"/>
       </van-cell-group>
     </div>
   </div>
 </template>
 
 <script>
-
+import { clearStore } from '@/utils/common'
 export default {
   name: 'myCenter',
   components: {
@@ -36,14 +37,16 @@ export default {
   methods: {
     goAbout() {
       this.$router.push('/index/about')
+    },
+    checkOut() {
+      clearStore()
+      this.$router.push('/login')
     }
   },
 }
 </script>
 
 <style lang="less" scoped>
-  .main {
-  }
 
   .info-list {
     ul {
@@ -108,7 +111,5 @@ export default {
 
   .link-space {
     margin-top: 60px;
-    border-top: 1px solid #dbdbdb;
-    border-bottom: 1px solid #dbdbdb;
   }
 </style>

@@ -15,6 +15,10 @@ export function notify (msg) {
   })
 }
 
+export function clearStore () {
+  store.commit('clearState')
+}
+
 export function initToken (data) {
   const {
     accessToken,

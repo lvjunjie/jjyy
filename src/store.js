@@ -21,6 +21,12 @@ export default new Vuex.Store({
         state[key] = payload[key]
         sessionStorage.setItem(key, JSON.stringify(payload[key]))
       }
+    },
+    clearState (state) {
+      for (const key in state) {
+        state[key] = ''
+        sessionStorage.removeItem(key)
+      }
     }
   },
   actions: {
