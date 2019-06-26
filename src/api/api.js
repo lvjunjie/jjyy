@@ -1,8 +1,17 @@
 import axios from './request'
 
-export function getMarketing (id) { // 会验证token
+export function AuthenticateByPhone (params) {
   return axios({
-    url: `marketing/${id}`,
-    method: 'get'
+    url: 'TokenAuth/AuthenticateByPhone',
+    method: 'post',
+    data: params
+  })
+}
+
+export function Authenticate (params) {
+  return axios({
+    method: 'post',
+    url: 'TokenAuth/Authenticate',
+    data: params
   })
 }

@@ -40,8 +40,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.data-detail {
-}
+
 .top-info {
   height: 16rem;
   background: #eeeeee;

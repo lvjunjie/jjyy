@@ -5,42 +5,83 @@
     </div>
     <div class="input-space">
       <van-cell-group>
-        <van-field left-icon="manager" placeholder="请输入账号"/>
+        <van-field left-icon="manager" placeholder="请输入账号" v-model="userNameOrEmailAddress"/>
       </van-cell-group>
       <van-cell-group>
-        <van-field style="margin-top: 20px" left-icon="lock" placeholder="请输入密码"/>
+        <van-field
+          style="margin-top: 20px"
+          left-icon="lock"
+          type="password"
+          placeholder="请输入密码"
+          v-model="password"
+        />
       </van-cell-group>
       <div class="action-space">
         <div>
           <label>
-            <input type="checkbox">
+            <input type="checkbox" v-model="remember">
             记住密码
           </label>
         </div>
         <div>
-          <label>忘记密码?</label>
+          <label @click="forgetPassword()">忘记密码?</label>
         </div>
       </div>
 
-      <button @click="login()">登录</button>
+      <button @click="login()" :disabled="isDisable">登录</button>
     </div>
   </div>
 </template>
 
 <script>
+import { initToken } from '@/utils/common'
+
 export default {
   name: "login",
   data() {
     return {
-      msg: 1111
+      userNameOrEmailAddress: "",
+      password: "",
+      remember: false
     };
+  },
+  computed: {
+    isDisable: function () {
+      return !this.userNameOrEmailAddress || !this.password
+    }
   },
   methods: {
     login() {
-      // login check
 
-      const path = "/index/home";
-      this.$router.push(path);
+      if(this.remember){
+        localStorage.setItem('loginInfo', JSON.stringify({userNameOrEmailAddress: this.userNameOrEmailAddress, password: this.password}))
+      }else {
+        localStorage.removeItem('loginInfo')
+      }
+
+
+      this.$http
+        .Authenticate({
+          userNameOrEmailAddress: this.userNameOrEmailAddress,
+          password: this.password
+        })
+        .then(res => {
+          initToken(res)
+          const path = '/index/home'
+          this.$router.push(path)
+        });
+    },
+    forgetPassword() {
+      alert("忘记密码操作")
+    }
+  },
+  mounted() {
+    
+    const loginInfo = JSON.parse(localStorage.getItem('loginInfo'))
+    if(loginInfo) {
+      this.userNameOrEmailAddress = loginInfo.userNameOrEmailAddress
+      this.password = loginInfo.password
+      this.remember = true
     }
   }
 };
