@@ -2,7 +2,7 @@
   <div class="main">
     <div class="info-list">
       <ul>
-        <li v-for="item in 4">
+        <li :key="index" v-for="(item, index) in [1, 2, 3, 4]">
           <div class="left">
            <img src="../assets/temp.jpg"/>
           </div>
