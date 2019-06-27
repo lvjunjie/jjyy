@@ -35,13 +35,13 @@ export default {
   components: {
 
   },
-  data() {
+  data () {
     return {
 
     }
   },
   methods: {
-    choseType(index, title) {
+    choseType (index, title) {
       alert(index)
     }
   }

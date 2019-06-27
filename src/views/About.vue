@@ -11,12 +11,12 @@
 </template>
 <script>
 export default {
-  name: "about",
-  data() {
-    return {};
+  name: 'about',
+  data () {
+    return {}
   },
-  mounted() {}
-};
+  mounted () {}
+}
 </script>
 <style lang="less" scoped>
 .about {
@@ -55,5 +55,3 @@ export default {
   }
 }
 </style>
-
-

@@ -27,28 +27,28 @@
 
 <script>
 export default {
-  name: "headerSpace",
+  name: 'headerSpace',
   props: [],
-  data() {
+  data () {
     return {
-      title: "",
-      path: "",
+      title: '',
+      path: '',
       value: 0,
       option1: [
-        { text: "父亲", value: 0 },
-        { text: "母亲", value: 1 },
-        { text: "儿子", value: 2 }
+        { text: '父亲', value: 0 },
+        { text: '母亲', value: 1 },
+        { text: '儿子', value: 2 }
       ]
-    };
+    }
   },
   watch: {
     '$route': {
-      handler(newVal) {
+      handler (newVal) {
         const { title } = newVal.meta
-        const path =  newVal.path
+        const path = newVal.path
 
         this.path = path
-        if(title) {
+        if (title) {
           this.title = title
         }
       },
@@ -56,27 +56,27 @@ export default {
     }
   },
   methods: {
-    choseItem() {
-      console.log(this.value);
+    choseItem () {
+      console.log(this.value)
     },
-    goHisRoute() {
-      const path = "/index/hisRoute";
-      this.$router.push(path);
+    goHisRoute () {
+      const path = '/index/hisRoute'
+      this.$router.push(path)
     },
-    goEditInfo() {},
-    goBack() {
+    goEditInfo () {},
+    goBack () {
       this.$router.go(-1)
     }
   },
-  created() {
-    this.$eventBus.$on("handleHeader", ({ path, title }) => {
+  created () {
+    this.$eventBus.$on('handleHeader', ({ path, title }) => {
       this.$nextTick(() => {
-        this.title = title;
-      });
-    });
+        this.title = title
+      })
+    })
   },
-  mounted() {}
-};
+  mounted () {}
+}
 </script>
 <style lang="less" scoped>
 </style>

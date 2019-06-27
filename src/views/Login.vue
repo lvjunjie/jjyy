@@ -37,13 +37,13 @@
 import { initToken } from '@/utils/common'
 
 export default {
-  name: "login",
-  data() {
+  name: 'login',
+  data () {
     return {
-      userNameOrEmailAddress: "",
-      password: "",
+      userNameOrEmailAddress: '',
+      password: '',
       remember: false
-    };
+    }
   },
   computed: {
     isDisable: function () {
@@ -51,14 +51,12 @@ export default {
     }
   },
   methods: {
-    login() {
-
-      if(this.remember){
-        localStorage.setItem('loginInfo', JSON.stringify({userNameOrEmailAddress: this.userNameOrEmailAddress, password: this.password}))
-      }else {
+    login () {
+      if (this.remember) {
+        localStorage.setItem('loginInfo', JSON.stringify({ userNameOrEmailAddress: this.userNameOrEmailAddress, password: this.password }))
+      } else {
         localStorage.removeItem('loginInfo')
       }
-
 
       this.$http
         .Authenticate({
@@ -69,22 +67,21 @@ export default {
           initToken(res)
           const path = '/index/home'
           this.$router.push(path)
-        });
+        })
     },
-    forgetPassword() {
-      alert("忘记密码操作")
+    forgetPassword () {
+      alert('忘记密码操作')
     }
   },
-  mounted() {
-    
+  mounted () {
     const loginInfo = JSON.parse(localStorage.getItem('loginInfo'))
-    if(loginInfo) {
+    if (loginInfo) {
       this.userNameOrEmailAddress = loginInfo.userNameOrEmailAddress
       this.password = loginInfo.password
       this.remember = true
     }
   }
-};
+}
 </script>
 <style scoped lang="less">
 .logo-space {

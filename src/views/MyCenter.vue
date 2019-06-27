@@ -35,14 +35,14 @@ export default {
 
   },
   methods: {
-    goAbout() {
+    goAbout () {
       this.$router.push('/index/about')
     },
-    checkOut() {
+    checkOut () {
       clearStore()
       this.$router.push('/login')
     }
-  },
+  }
 }
 </script>
 

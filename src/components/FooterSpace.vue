@@ -9,63 +9,63 @@
 
 <script>
 export default {
-  name: "footerSpace",
-  data() {
+  name: 'footerSpace',
+  data () {
     return {
       showFooter: true,
       menuList: [
         {
-          name: "首页",
-          title: "玖久易养",
-          path: "/index/home",
-          icon: "wap-home",
+          name: '首页',
+          title: '玖久易养',
+          path: '/index/home',
+          icon: 'wap-home',
           active: false
         },
         {
-          name: "消息中心",
-          path: "/index/messages",
-          icon: "volume-o",
+          name: '消息中心',
+          path: '/index/messages',
+          icon: 'volume-o',
           active: false
         },
         {
-          name: "我的",
-          path: "/index/myCenter",
-          icon: "contact",
+          name: '我的',
+          path: '/index/myCenter',
+          icon: 'contact',
           active: false
         }
       ]
-    };
+    }
   },
   watch: {
-    "$route.path": {
-      handler(newVal) {
+    '$route.path': {
+      handler (newVal) {
         this.menuList.forEach(item => {
-          item.active = false;
-        });
+          item.active = false
+        })
 
         const menuItem = this.menuList.find(item => {
-          return item.path === newVal;
-        });
+          return item.path === newVal
+        })
 
         if (menuItem) {
-          this.showFooter = true;
-          menuItem.active = true;
+          this.showFooter = true
+          menuItem.active = true
         } else {
-          this.showFooter = false;
+          this.showFooter = false
         }
       },
       immediate: true
     }
   },
   methods: {
-    choseMenu(item) {
+    choseMenu (item) {
       // 路由跳转
-      this.$router.push({ path: item.path });
+      this.$router.push({ path: item.path })
     }
   },
-  created() {},
-  mounted() {}
-};
+  created () {},
+  mounted () {}
+}
 </script>
 <style lang="less" scoped>
 .footer {

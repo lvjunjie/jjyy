@@ -60,16 +60,15 @@
 
 <script>
 export default {
-  name: "home",
+  name: 'home',
   components: {},
   methods: {
-    showDetail(type) {
+    showDetail (type) {
       const path = `/index/dataDetail/${type}`
-      this.$router.push(path);
-
+      this.$router.push(path)
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

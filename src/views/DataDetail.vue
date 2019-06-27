@@ -17,27 +17,27 @@
 </template>
 
 <script>
-import ChartDisplay from "@/components/ChartDisplay";
+import ChartDisplay from '@/components/ChartDisplay'
 export default {
-  name: "dataDetail",
+  name: 'dataDetail',
   components: {
     ChartDisplay
   },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   methods: {},
-  mounted() {
-    const type = this.$route.params.type;
+  mounted () {
+    const type = this.$route.params.type
 
-    const titleList = ["睡眠时间", "血压", "血氧", "心率"];
+    const titleList = ['睡眠时间', '血压', '血氧', '心率']
 
     // 发送事件, 切换顶部标题
-    this.$eventBus.$emit("handleHeader", {
+    this.$eventBus.$emit('handleHeader', {
       title: titleList[type]
-    });
+    })
   }
-};
+}
 </script>
 <style lang="less" scoped>
 
@@ -104,4 +104,3 @@ export default {
   // background: yellow
 }
 </style>
-
