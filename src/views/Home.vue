@@ -79,7 +79,6 @@ export default {
   mounted () {
     const { userId } = this.$store.state
     this.getUserInfo(userId)
-    
   }
 }
 </script>

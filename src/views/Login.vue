@@ -73,7 +73,7 @@ export default {
       alert('忘记密码操作')
     }
   },
-  beforeCreate() {
+  beforeCreate () {
     clearStore()
   },
   mounted () {
