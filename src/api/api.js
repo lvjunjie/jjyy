@@ -15,3 +15,11 @@ export function Authenticate (params) {
     data: params
   })
 }
+
+export function GetCurUserInfo (params) {
+  return axios({
+    method: 'get',
+    url: 'services/app/ElderExInfos/GetAll',
+    params
+  })
+}

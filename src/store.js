@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     accessToken: JSON.parse(sessionStorage.getItem('accessToken')) || '',
     expireInSeconds: JSON.parse(sessionStorage.getItem('expireInSeconds')) || '',
-    endSeconds: JSON.parse(sessionStorage.getItem('endSeconds')) || ''
+    endSeconds: JSON.parse(sessionStorage.getItem('endSeconds')) || '',
+    userId: JSON.parse(sessionStorage.getItem('userId')) || ''
 
   },
   getters: {
@@ -24,7 +25,7 @@ export default new Vuex.Store({
     },
     clearState (state) {
       for (const key in state) {
-        state[key] = ''
+        state[key] = null
         sessionStorage.removeItem(key)
       }
     }

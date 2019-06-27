@@ -22,14 +22,16 @@ export function clearStore () {
 export function initToken (data) {
   const {
     accessToken,
-    expireInSeconds
+    expireInSeconds,
+    userId
   } = data
   const endSeconds = Date.parse(new Date()) + expireInSeconds
 
   store.commit('updateState', {
     accessToken,
     expireInSeconds,
-    endSeconds
+    endSeconds,
+    userId
   })
 }
 
@@ -41,6 +43,9 @@ export function verifyTokenOvertime () {
   } = store.state
 
   if (curDate >= endSeconds) { // 超时
+    // 清空缓存
+    clearStore()
+
     return true
   } else { // 更新超时时间
     store.commit('updateState', {

@@ -13,11 +13,6 @@ const API_PATH = 'http://api.99yiyang.com/api/'
 axios.defaults.timeout = 5000 // 超时时间
 axios.defaults.baseURL = API_PATH // 默认地址
 
-const token = store.getters.getToken
-if (token) {
-  axios.defaults.headers.common['Authorization'] = token
-}
-
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
@@ -35,11 +30,16 @@ axios.defaults.transformResponse = function (data) {
 axios.interceptors.request.use(
   config => {
     // token 超时验证
-    if (token && verifyTokenOvertime()) {
+    const { accessToken } = store.state
+    config.headers['Authorization'] = 'Bearer ' + accessToken
+
+    if (accessToken && verifyTokenOvertime()) {
       notify('您已超时，请重新登录')
       return router.push('/login')
     } else {
       Toast.loading()
+
+      console.log(config)
       return config
     }
   },

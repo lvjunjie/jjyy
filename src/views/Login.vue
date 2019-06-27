@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { initToken } from '@/utils/common'
+import { initToken, clearStore } from '@/utils/common'
 
 export default {
   name: 'login',
@@ -72,6 +72,9 @@ export default {
     forgetPassword () {
       alert('忘记密码操作')
     }
+  },
+  beforeCreate() {
+    clearStore()
   },
   mounted () {
     const loginInfo = JSON.parse(localStorage.getItem('loginInfo'))
