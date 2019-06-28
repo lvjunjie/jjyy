@@ -60,27 +60,37 @@
 
 <script>
 export default {
-  name: 'home',
+  name: "home",
   components: {},
   methods: {
-    showDetail (type) {
-      const path = `/index/dataDetail/${type}`
-      this.$router.push(path)
+    showDetail(type) {
+      const path = `/index/dataDetail/${type}`;
+      this.$router.push(path);
     },
-    getUserInfo (userId) {
-      console.log(userId)
-      this.$http.GetCurUserInfo({
-        userId
-      }).then((res) => {
-        // console.log(res)
-      })
+    getUserInfo(userId) {
+      this.$http
+        .GetCurUserInfo({
+          userId
+        })
+        .then(res => {
+          // console.log(res)
+        });
+    },
+    getElderList(contactorId) {
+      this.$http
+        .GetElderByContactorId({
+          contactorId
+        })
+        .then(res => {
+          // console.log(res)
+        });
     }
   },
-  mounted () {
-    const { userId } = this.$store.state
-    this.getUserInfo(userId)
+  mounted() {
+    const { userId } = this.$store.state;
+    this.getElderList(userId);
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

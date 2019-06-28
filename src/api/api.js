@@ -23,3 +23,11 @@ export function GetCurUserInfo (params) {
     params
   })
 }
+
+export function GetElderByContactorId (params) {
+  return axios({
+    method: 'get',
+    url: 'services/app/User/GetElderByContactorId',
+    params
+  })
+}

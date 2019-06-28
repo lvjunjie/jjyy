@@ -38,8 +38,6 @@ axios.interceptors.request.use(
       return router.push('/login')
     } else {
       Toast.loading()
-
-      console.log(config)
       return config
     }
   },
@@ -76,7 +74,7 @@ axios.interceptors.response.use(
       notify(data.error.message)
     }
 
-    return Promise.reject(error.response) // 返回接口返回的错误信息
+    return Promise.reject(error.response)
   })
 
 export default axios
