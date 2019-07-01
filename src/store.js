@@ -8,8 +8,8 @@ export default new Vuex.Store({
     accessToken: JSON.parse(sessionStorage.getItem('accessToken')) || '',
     expireInSeconds: JSON.parse(sessionStorage.getItem('expireInSeconds')) || '',
     endSeconds: JSON.parse(sessionStorage.getItem('endSeconds')) || '',
-    userId: JSON.parse(sessionStorage.getItem('userId')) || ''
-
+    userId: JSON.parse(sessionStorage.getItem('userId')) || '',
+    elderId: JSON.parse(sessionStorage.getItem('elderId')) || ''
   },
   getters: {
     getToken: state => state.accessToken
