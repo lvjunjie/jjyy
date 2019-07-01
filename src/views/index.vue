@@ -1,8 +1,8 @@
 <template>
   <div class="main">
-    <header-space></header-space>
+    <header-space  v-if="elderList" :elderList="elderList" ></header-space>
 
-    <div class="view-space">
+    <div class="view-space" v-if="elderList.length > 0">
       <transition name="fade" mode="out-in">
         <router-view/>
       </transition>
@@ -23,10 +23,34 @@ export default {
     FooterSpace
   },
   data () {
-    return {}
+    return {
+      elderList: [],
+      elderId: ""
+    }
   },
-  methods: {},
-  mounted () {}
+  methods: {
+    getElderList(contactorId) {
+      this.$http
+        .GetElderByContactorId({
+          contactorId
+        })
+        .then(res => {
+          if (res.length > 0) {
+            this.elderList = res.map(item => {
+              return {
+                text: item.relation,
+                value: item.elderId
+              };
+            });
+          }
+        });
+    }
+  },
+  mounted () {
+    const { userId } = this.$store.state;
+
+    this.getElderList(userId)
+  }
 }
 </script>
 

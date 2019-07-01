@@ -8,17 +8,17 @@
     </div>
    <div class="notice-list">
       <ul>
-        <li :key="index" v-for="(item, index) in [1,2,3,4,5,6,7,8,9,10,11,12,13,14]">
+        <li :key="index" v-for="(item, index) in list">
           <div class="left">
             <van-icon size="20" color="red" name="warning-o" />
           </div>
           <div class="right">
               <div class="title-space">
-                <h4>健康状况异常提醒</h4>
-                <h5>4月4日</h5>
+                <h4>{{item.messageTips.title}}</h4>
+                <h5>{{item.messageTips.genTime}}</h5>
               </div>
               <div>
-                <h5>睡眠不足提醒睡眠不足提醒睡眠不足提醒睡眠不足提醒睡眠不足提醒睡眠不足提醒</h5>
+                <h5>{{item.messageTips.messageContent}}</h5>
               </div>
           </div>
 
@@ -37,13 +37,34 @@ export default {
   },
   data () {
     return {
-
+      IsReadFilter: 0,
+      SkipCount: 1,
+      MaxResultCount: 15,
+      list:[]
     }
   },
   methods: {
     choseType (index, title) {
-      alert(index)
+      this.IsReadFilter = index ===0 ? 0 : null
+
+      this.getMessages( )
+    },
+    getMessages() {
+      const { elderId } = this.$store.state
+
+      this.$http.GetAllMessages({
+        IsReadFilter: this.IsReadFilter,
+        UserId: elderId,
+        SkipCount: this.SkipCount,
+        MaxResultCount: this.MaxResultCount
+      }).then((res)=>{
+        console.log(res)
+        this.list = res.items
+      })
     }
+  },
+  mounted() {
+    this.getMessages()
   }
 }
 </script>

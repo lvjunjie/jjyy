@@ -4,51 +4,51 @@
       <div class="photo">
         <img src="../assets/temp.jpg">
       </div>
-      <h5>苏大强 68</h5>
-      <h5>2018-05-02 13:33:12</h5>
-      <h5>注意事项：忌油腻、忌辛辣</h5>
+      <h5>{{elderName}} {{elderSex}} {{elderAge}}</h5>
+      <!--<h5>2018-05-02 13:33:12</h5>-->
+      <!--<h5>注意事项：忌油腻、忌辛辣</h5>-->
     </div>
     <div class="health-data">
       <h4>健康数据</h4>
 
       <div class="data-list">
         <ul>
-          <li @click="showDetail(0)">
-            <div class="left">睡眠时间</div>
-            <div class="right">
-              <span>
-                3h7m
-                <br>深睡
-              </span>
-              <span>
-                3h7m
-                <br>浅睡
-              </span>
-              <span>
-                3h7m
-                <br>总时长
-              </span>
-              <van-icon name="arrow" size="20"/>
-            </div>
-          </li>
+          <!--<li @click="showDetail(0)">-->
+            <!--<div class="left">睡眠时间</div>-->
+            <!--<div class="right">-->
+              <!--<span>-->
+                <!--3h7m-->
+                <!--<br>深睡-->
+              <!--</span>-->
+              <!--<span>-->
+                <!--3h7m-->
+                <!--<br>浅睡-->
+              <!--</span>-->
+              <!--<span>-->
+                <!--3h7m-->
+                <!--<br>总时长-->
+              <!--</span>-->
+              <!--<van-icon name="arrow" size="20"/>-->
+            <!--</div>-->
+          <!--</li>-->
           <li @click="showDetail(1)">
             <div class="left">血压</div>
             <div class="right">
-              <span>129/85</span>
+              <span>{{bloodPressure}}</span>
               <van-icon name="arrow" size="20"/>
             </div>
           </li>
           <li @click="showDetail(2)">
             <div class="left">血氧</div>
             <div class="right">
-              <span>129/85</span>
+              <span>{{bloodOxygen}}</span>
               <van-icon name="arrow" size="20"/>
             </div>
           </li>
           <li @click="showDetail(3)">
             <div class="left">心率</div>
             <div class="right">
-              <span>129/85</span>
+              <span>{{heartRate}}</span>
               <van-icon name="arrow" size="20"/>
             </div>
           </li>
@@ -62,9 +62,14 @@
 export default {
   name: 'home',
   components: {},
-  data() {
+  data () {
     return {
-      elderList: [],
+      elderName: '',
+      elderSex: '',
+      elderAge: '',
+      heartRate: '',
+      bloodPressure: '',
+      bloodOxygen: ''
     }
   },
   methods: {
@@ -72,25 +77,56 @@ export default {
       const path = `/index/dataDetail/${type}`
       this.$router.push(path)
     },
-    getUserInfo (userId) {
+    getInfo (elderId) {
       this.$http
-        .GetCurUserInfo({
-          userId
+        .GetElderInfoWithSignByElderId({
+          elderId
         })
         .then(res => {
           // console.log(res)
+          if(res) {
+            this.elderName = res.elderName
+            this.elderSex = res.elderSex
+            this.elderAge = res.elderAge
+
+            // 处理体征数据
+            // 血压
+
+            const highBloodPressure = res.signLastedRecord.find((item)=>{
+              return item.signCode === 'high_blood_pressure'
+            })
+
+            const lowBloodPressure = res.signLastedRecord.find((item)=>{
+              return item.signCode === 'low_blood_pressure'
+            })
+
+            this.bloodPressure = highBloodPressure.signValue + ' / ' + lowBloodPressure.signValue
+
+            const bloodOxygen = res.signLastedRecord.find((item)=>{
+              return item.signCode === 'blood_oxygen'
+            })
+
+            this.bloodOxygen = bloodOxygen.signValue
+
+            const heartRate = res.signLastedRecord.find((item)=>{
+              return item.signCode === 'heart_rate'
+            })
+
+            this.heartRate = heartRate.signValue
+
+
+          }
         })
     }
   },
-  
+
   mounted () {
-    
-    this.$eventBus.$on('handleElderId', () => {
-      const { elderId } = this.$store.state      
-      this.getUserInfo(elderId)
-      
-    })
-    
+    setTimeout(()=>{
+      const { elderId } = this.$store.state
+
+      this.getInfo(elderId)
+    }, 500)
+
   }
 }
 </script>
@@ -170,14 +206,14 @@ export default {
           }
         }
 
-        &:first-child {
-          span:first-child {
-            color: #259b24;
-          }
-          span:nth-child(2) {
-            color: #ff9800;
-          }
-        }
+        /*&:first-child {*/
+          /*span:first-child {*/
+            /*color: #259b24;*/
+          /*}*/
+          /*span:nth-child(2) {*/
+            /*color: #ff9800;*/
+          /*}*/
+        /*}*/
       }
     }
   }

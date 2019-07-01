@@ -31,3 +31,19 @@ export function GetElderByContactorId (params) {
     params
   })
 }
+
+export function GetElderInfoWithSignByElderId (params) {
+  return axios({
+    method: 'get',
+    url: 'services/app/ElderInfos/GetElderInfoWithSignByElderId',
+    params
+  })
+}
+
+export function GetAllMessages (params) {
+  return axios({
+    method: 'get',
+    url: 'services/app/MessageTipses/GetAll',
+    params
+  })
+}

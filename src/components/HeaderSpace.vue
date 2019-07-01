@@ -28,13 +28,12 @@
 <script>
 export default {
   name: "headerSpace",
-  props: [],
+  props: ['elderList'],
   data() {
     return {
       title: "",
       path: "",
-      elderList: [],
-      elderId: ""
+      elderId: ''
     };
   },
   watch: {
@@ -49,15 +48,26 @@ export default {
         }
       },
       immediate: true
+    },
+    elderList:  {
+      handler() {
+        this.elderId = this.elderList[0].value
+      }
+    },
+    elderId:  {
+      handler() {
+        this.$store.commit("updateState", {
+          elderId: this.elderId
+        });
+      }
     }
   },
   methods: {
     choseItem() {
-      this.$store.commit("updateState", {
-        elderId: this.elderId
-      });
-
-      this.$eventBus.$emit('handleElderId')
+      // this.$store.commit("updateState", {
+      //   elderId: this.elderId
+      // });
+      // this.$eventBus.$emit('handleElderId')
     },
     goHisRoute() {
       const path = "/index/hisRoute";
@@ -67,25 +77,9 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    getElderList(contactorId) {
-      this.$http
-        .GetElderByContactorId({
-          contactorId
-        })
-        .then(res => {
-          if (res.length > 0) {
-            this.elderList = res.map(item => {
-              return {
-                text: item.relation,
-                value: item.elderId
-              };
-            });
 
-            this.elderId = this.elderList[0].value;
-          }
-        });
-    }
   },
+
   created() {
     this.$eventBus.$on("handleHeader", ({ path, title }) => {
       this.$nextTick(() => {
@@ -94,9 +88,10 @@ export default {
     });
   },
   mounted() {
-    const { userId } = this.$store.state;
-
-    this.getElderList(userId);
+    setTimeout(()=>{
+      console.log(this.elderList)
+    },2000)
+    // this.elderId = this.elderList[0].elderId
   }
 };
 </script>
