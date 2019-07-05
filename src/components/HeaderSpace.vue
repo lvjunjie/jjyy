@@ -27,73 +27,73 @@
 
 <script>
 export default {
-  name: "headerSpace",
+  name: 'headerSpace',
   props: ['elderList'],
-  data() {
+  data () {
     return {
-      title: "",
-      path: "",
+      title: '',
+      path: '',
       elderId: ''
-    };
+    }
   },
   watch: {
     $route: {
-      handler(newVal) {
-        const { title } = newVal.meta;
-        const path = newVal.path;
+      handler (newVal) {
+        const { title } = newVal.meta
+        const path = newVal.path
 
-        this.path = path;
+        this.path = path
         if (title) {
-          this.title = title;
+          this.title = title
         }
       },
       immediate: true
     },
-    elderList:  {
-      handler() {
+    elderList: {
+      handler () {
         this.elderId = this.elderList[0].value
       }
     },
-    elderId:  {
-      handler() {
-        this.$store.commit("updateState", {
+    elderId: {
+      handler () {
+        this.$store.commit('updateState', {
           elderId: this.elderId
-        });
+        })
       }
     }
   },
   methods: {
-    choseItem() {
+    choseItem () {
       // this.$store.commit("updateState", {
       //   elderId: this.elderId
       // });
       // this.$eventBus.$emit('handleElderId')
     },
-    goHisRoute() {
-      const path = "/index/hisRoute";
-      this.$router.push(path);
+    goHisRoute () {
+      const path = '/index/hisRoute'
+      this.$router.push(path)
     },
-    goEditInfo() {},
-    goBack() {
-      this.$router.go(-1);
-    },
+    goEditInfo () {},
+    goBack () {
+      this.$router.go(-1)
+    }
 
   },
 
-  created() {
-    this.$eventBus.$on("handleHeader", ({ path, title }) => {
+  created () {
+    this.$eventBus.$on('handleHeader', ({ path, title }) => {
       this.$nextTick(() => {
-        this.title = title;
-      });
-    });
+        this.title = title
+      })
+    })
   },
-  mounted() {
-    setTimeout(()=>{
+  mounted () {
+    setTimeout(() => {
       console.log(this.elderList)
-    },2000)
+    }, 2000)
     // this.elderId = this.elderList[0].elderId
   }
-};
+}
 </script>
 <style lang="less" scoped>
 </style>

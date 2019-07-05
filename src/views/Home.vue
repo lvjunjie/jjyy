@@ -4,7 +4,7 @@
       <div class="photo">
         <img src="../assets/temp.jpg">
       </div>
-      <h5>{{elderName}} {{elderSex}} {{elderAge}}</h5>
+      <h5>{{elderName}} {{elderSex | translateSex}} {{elderAge}}</h5>
       <!--<h5>2018-05-02 13:33:12</h5>-->
       <!--<h5>注意事项：忌油腻、忌辛辣</h5>-->
     </div>
@@ -84,7 +84,7 @@ export default {
         })
         .then(res => {
           // console.log(res)
-          if(res) {
+          if (res) {
             this.elderName = res.elderName
             this.elderSex = res.elderSex
             this.elderAge = res.elderAge
@@ -92,41 +92,38 @@ export default {
             // 处理体征数据
             // 血压
 
-            const highBloodPressure = res.signLastedRecord.find((item)=>{
+            const highBloodPressure = res.signLastedRecord.find((item) => {
               return item.signCode === 'high_blood_pressure'
             })
 
-            const lowBloodPressure = res.signLastedRecord.find((item)=>{
+            const lowBloodPressure = res.signLastedRecord.find((item) => {
               return item.signCode === 'low_blood_pressure'
             })
 
             this.bloodPressure = highBloodPressure.signValue + ' / ' + lowBloodPressure.signValue
 
-            const bloodOxygen = res.signLastedRecord.find((item)=>{
+            const bloodOxygen = res.signLastedRecord.find((item) => {
               return item.signCode === 'blood_oxygen'
             })
 
             this.bloodOxygen = bloodOxygen.signValue
 
-            const heartRate = res.signLastedRecord.find((item)=>{
+            const heartRate = res.signLastedRecord.find((item) => {
               return item.signCode === 'heart_rate'
             })
 
             this.heartRate = heartRate.signValue
-
-
           }
         })
     }
   },
 
   mounted () {
-    setTimeout(()=>{
+    setTimeout(() => {
       const { elderId } = this.$store.state
 
       this.getInfo(elderId)
     }, 500)
-
   }
 }
 </script>

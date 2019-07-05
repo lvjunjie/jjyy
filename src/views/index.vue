@@ -25,11 +25,11 @@ export default {
   data () {
     return {
       elderList: [],
-      elderId: ""
+      elderId: ''
     }
   },
   methods: {
-    getElderList(contactorId) {
+    getElderList (contactorId) {
       this.$http
         .GetElderByContactorId({
           contactorId
@@ -40,14 +40,14 @@ export default {
               return {
                 text: item.relation,
                 value: item.elderId
-              };
-            });
+              }
+            })
           }
-        });
+        })
     }
   },
   mounted () {
-    const { userId } = this.$store.state;
+    const { userId } = this.$store.state
 
     this.getElderList(userId)
   }

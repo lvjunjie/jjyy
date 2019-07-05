@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import { clearStore } from "@/utils/common";
+import { clearStore } from '@/utils/common'
 export default {
-  name: "myCenter",
+  name: 'myCenter',
   components: {},
-  data() {
+  data () {
     return {
       manDefalutHead: require('../assets/temp.jpg'),
       womenDefalutHead: require('../assets/temp.jpg'),
@@ -40,35 +40,35 @@ export default {
     }
   },
   methods: {
-    goAbout() {
-      this.$router.push("/index/about");
+    goAbout () {
+      this.$router.push('/index/about')
     },
-    checkOut() {
-      clearStore();
-      this.$router.push("/login");
+    checkOut () {
+      clearStore()
+      this.$router.push('/login')
     },
-    getElderList(contactorId) {
+    getElderList (contactorId) {
       this.$http
         .GetElderByContactorId({
           contactorId
         })
         .then(res => {
           if (res.length > 0) {
-            this.elderList = res.map((item)=>{
-              if(!item.elderheadPic) {
-                item.elderheadPic = item.elderSex===0?this.manDefalutHead:this.womenDefalutHead
+            this.elderList = res.map((item) => {
+              if (!item.elderheadPic) {
+                item.elderheadPic = item.elderSex === 0 ? this.manDefalutHead : this.womenDefalutHead
               }
               return item
             })
           }
-        });
+        })
     }
   },
-  mounted() {
-    const { userId } = this.$store.state;
-    this.getElderList(userId);
+  mounted () {
+    const { userId } = this.$store.state
+    this.getElderList(userId)
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

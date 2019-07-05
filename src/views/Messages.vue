@@ -40,16 +40,16 @@ export default {
       IsReadFilter: 0,
       SkipCount: 1,
       MaxResultCount: 15,
-      list:[]
+      list: []
     }
   },
   methods: {
     choseType (index, title) {
-      this.IsReadFilter = index ===0 ? 0 : null
+      this.IsReadFilter = index === 0 ? 0 : null
 
-      this.getMessages( )
+      this.getMessages()
     },
-    getMessages() {
+    getMessages () {
       const { elderId } = this.$store.state
 
       this.$http.GetAllMessages({
@@ -57,13 +57,13 @@ export default {
         UserId: elderId,
         SkipCount: this.SkipCount,
         MaxResultCount: this.MaxResultCount
-      }).then((res)=>{
+      }).then((res) => {
         console.log(res)
         this.list = res.items
       })
     }
   },
-  mounted() {
+  mounted () {
     this.getMessages()
   }
 }
