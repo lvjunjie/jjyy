@@ -1,9 +1,9 @@
 <template>
-  <div class="login">
+  <div id="login">
     <div class="logo-space">
-      <h1>玖久易养</h1>
+      <img src="../assets/images/logo.png">
     </div>
-    <div class="input-space">
+    <!-- <div class="input-space">
       <van-cell-group>
         <van-field left-icon="manager" placeholder="请输入账号" v-model="userNameOrEmailAddress"/>
       </van-cell-group>
@@ -29,7 +29,7 @@
       </div>
 
       <button @click="login()" :disabled="isDisable">登录</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -87,16 +87,23 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.logo-space {
-  height: 15rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  h1 {
-    font-size: 2.25rem;
-    font-family: "PingFangSC-bold";
-    color: #8c8c8c;
+#login {
+  background: url('../assets/images/loginBg.png') no-repeat;
+  background-size: 100% 100%;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.logo-space {
+    width: 96px;
+    height: 96px;
+    margin: 132px auto;
+  
+
+  img {
+    width: 100%;
+    height: 100%;
   }
 }
 
