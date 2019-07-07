@@ -72,13 +72,13 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-// //   if (store.state.accessToken || to.path === '/login') {
-// //     next()
-// //   } else {
-// //     notify('请先登录')
-// //     next({ path: '/login' })
-// //   }
-// // })
+router.beforeEach((to, from, next) => {
+  if (store.state.accessToken || to.path === '/login') {
+    next()
+  } else {
+    notify('请先登录')
+    next({ path: '/login' })
+  }
+})
 
 export default router

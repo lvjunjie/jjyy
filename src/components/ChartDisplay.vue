@@ -17,22 +17,29 @@ export default {
     const chart = this.$echarts.init(document.getElementById('echart'), null, {
       renderer: 'svg'
     })
-    console.log(chart)
+
+    const data = [[new Date('2019-10-12 10:10'),10], [new Date('2019-10-12 10:11'),20],  [new Date('2019-10-12 10:12'), 15]]
+
 
     chart.setOption({
       title: {
         text: 'ECharts 入门示例'
       },
       tooltip: {},
+      dataZoom: [
+        {type: 'inside', xAxisIndex: [0],}
+      ],
       xAxis: {
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子', 'test1', 'test2']
+        type: 'time',
       },
-      yAxis: {},
+      yAxis: {
+        min: 0,
+        max: 30
+      },
       series: [
         {
-          name: '销量',
           type: 'line',
-          data: [5, 20, 36, 10, 10, 20, 16, 20]
+          data: data
         }
       ]
     })

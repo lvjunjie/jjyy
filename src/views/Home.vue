@@ -13,15 +13,17 @@
 
         <div class="tab-part">
           <van-tabs
+            v-if="elderList.length > 0"
+            v-model = "chosenIndex"
             type="line"
             background="transparent"
             :border = 'false'
             color="#FFD800"
             title-active-color="#fff"
             line-height="4px"
-
+            @click="choseElder"
           >
-            <van-tab v-for="index in 2" :title="'tab' + index"></van-tab>
+            <van-tab :key="index" v-for="(item, index) in elderList" :title="item.relation"></van-tab>
           </van-tabs>
         </div>
         <div class="photo-part">
@@ -29,9 +31,9 @@
         </div>
 
         <div class="info-space">
-          <h4>父亲</h4>
-          <i class="fa  fa-mars"></i>
-          <h4>68岁</h4>
+          <h4>{{elderInfo.elderName}}</h4>
+          <i :class='["fa", {"fa-venus" : elderInfo.elderSex === 1}, {"fa-mars" : elderInfo.elderSex === 0}]'></i>
+          <h4>{{elderInfo.elderAge}}</h4>
         </div>
         <div class="info-space">
           <h4>2018-10-12 10:12:30</h4>
@@ -39,13 +41,13 @@
       </div>
       <div class="mainSpace">
         <ul>
-          <li v-for="item in 4" @click="goPage('/dataDetail/1')">
+          <li v-for="(item, index) in signList" @click="goPage(`/dataDetail/${item.signCode}`)">
             <div class="left">
-              <img src="../assets/images/xueyang.png"/>
+              <img :src='item.typePic'/>
             </div>
             <div class="center">
-              <h4>血氧</h4>
-              <h1>96%</h1>
+              <h4>{{item.title}}</h4>
+              <h1><span v-if="item.mark">{{item.mark}}</span> {{item.value? item.value + item.unit :'--'}}</h1>
             </div>
             <div class="right">
               <img src="../assets/images/arrowRight.png"/>
@@ -60,22 +62,115 @@
 
 <script>
 import FooterSpace from '../components/FooterSpace'
+import xueyang from '@/assets/images/xueyang.png'
+
 export default {
   name: 'home',
   components: { FooterSpace },
   data () {
     return {
-
+      chosenIndex: 0,
+      elderId: '',
+      elderInfo: {},
+      elderList: [],
+      signList: [{
+        signCode: '',
+        title: '睡眠',
+        typePic: xueyang,
+        mark: '总时长',
+        value: '',
+        unit: ''
+      }, {
+        signCode: 'blood_pressure',
+        title: '血压',
+        typePic: xueyang,
+        mark: '',
+        value: '',
+        unit: ''
+      }, {
+        signCode: 'blood_oxygen',
+        title: '血氧',
+        typePic: xueyang,
+        mark: '',
+        value: '',
+        unit: ''
+      }, {
+        signCode: 'heart_rate',
+        title: '心率',
+        typePic: xueyang,
+        mark: '',
+        value: '',
+        unit: ''
+      }]
     }
   },
   methods: {
-    goPage(path) {
+    goPage (path) {
       this.$router.push(path)
+    },
+    getElderList (contactorId) {
+      this.$http
+        .GetElderByContactorId({
+          contactorId
+        })
+        .then(res => {
+          if (res.length > 0) {
+            this.elderList = res
+            // 默认选取第一个
+
+            const curElderInfo = JSON.parse(sessionStorage.getItem('curElderInfo'))
+            if(curElderInfo) {
+              this.chosenIndex = this.elderList.findIndex(item => item.elderId === curElderInfo.elderId)
+              if(this.chosenIndex >= 0) {
+                return this.choseElder(this.chosenIndex)
+              }
+            }
+
+            this.choseElder(this.chosenIndex)
+          }
+        })
+    },
+    choseElder (num) {
+      this.elderInfo = this.elderList[num]
+      // 当前用户数据存入缓存
+      sessionStorage.setItem('curElderInfo', JSON.stringify(this.elderInfo))
+
+      this.getInfo(this.elderInfo.elderId)
+    },
+    getInfo (elderId) {
+      this.$http
+        .GetElderInfoWithSignByElderId({
+          elderId
+        })
+        .then(res => {
+          if (res) {
+            // 处理体征数据
+
+            this.signList.forEach(item => item.value = '')
+
+            let blood_pressure = []
+            res.signLastedRecord.forEach(item => {
+              if (item.signCode === 'low_blood_pressure') {
+                blood_pressure.push(item.signValue)
+              } else if (item.signCode === 'high_blood_pressure') {
+                blood_pressure.push(item.signValue)
+              } else {
+                let temp = this.signList.find(ite => ite.signCode === item.signCode)
+                temp.value = item.signValue
+              }
+            })
+
+            let tempPressure = this.signList.find(ite => ite.signCode === 'blood_pressure')
+            tempPressure.value = blood_pressure.join('/')
+          }
+        })
     }
   },
 
   mounted () {
+    const { userId } = this.$store.state
 
+    this.getElderList(userId)
   }
 }
 </script>
@@ -181,6 +276,12 @@ export default {
             h1 {
               font-size: 24px;
               opacity: 0.8;
+
+              span {
+                font-size: 14px;
+                opacity: 0.8;
+                margin-right: 10px;
+              }
             }
           }
 

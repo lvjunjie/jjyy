@@ -45,9 +45,22 @@ export default {
   },
   methods: {},
   mounted () {
+
     const type = this.$route.params.type
 
-    const titleList = ['睡眠时间', '血压', '血氧', '心率']
+    switch (type) {
+      case 'blood_pressure':
+        this.title = '血压'
+        break;
+
+      case 'blood_oxygen':
+        this.title = '血氧'
+        break;
+
+      case 'heart_rate':
+        this.title = '心率'
+        break;
+    }
 
   }
 }

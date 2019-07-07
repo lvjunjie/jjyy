@@ -3,17 +3,17 @@
     <header-space title="消息中心"></header-space>
    <div class="notice-list">
       <ul>
-        <li :key="index" v-for="(item, index) in [1,2,3,4,5,6,7,8,9]">
+        <li :key="index" v-for="(item, index) in list">
           <div class="left">
             <img src="../assets/images/bell.png"/>
           </div>
           <div class="right">
               <div class="title-space">
-                <h4>这是一个标题这是一个标题这是一个标题这是一个标题这是一个标题这是一个标题</h4>
-                <h5>2014-10-12 10:20</h5>
+                <h4>{{item.messageTips.title}}</h4>
+                <h5>{{item.messageTips.genTime}}</h5>
               </div>
               <div>
-                <h5>这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容</h5>
+                <h5>{{item.messageTips.messageContent}}</h5>
               </div>
           </div>
         </li>
@@ -44,21 +44,23 @@ export default {
   },
   methods: {
     getMessages () {
-      const { elderId } = this.$store.state
+      const curElderInfo = JSON.parse(sessionStorage.getItem('curElderInfo'))
 
       this.$http.GetAllMessages({
         IsReadFilter: this.IsReadFilter,
-        UserId: elderId,
+        UserId: curElderInfo.elderId,
         SkipCount: this.SkipCount,
         MaxResultCount: this.MaxResultCount
       }).then((res) => {
-        console.log(res)
-        this.list = res.items
+        this.list = res.items.map(item => {
+          item.genTime = this.$moment(item.genTime, 'YYYY-MM-dd HH:mm:ss')
+          return item
+        })
       })
     }
   },
   mounted () {
-    // this.getMessages()
+    this.getMessages()
   }
 }
 </script>

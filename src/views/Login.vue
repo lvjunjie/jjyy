@@ -51,7 +51,7 @@ export default {
         })
         .then(res => {
           initToken(res)
-          const path = '/index/home'
+          const path = '/home'
           this.$router.push(path)
         })
     },
