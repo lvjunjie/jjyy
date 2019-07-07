@@ -1,17 +1,27 @@
 <template>
-  <div class="about">
-    <div class="info-space">
-      <div class="photo">
-        <img src="../assets/temp.jpg">
+  <div class="page no-footer">
+    <header-space title="关于我们"></header-space>
+    <div class="about">
+      <div class="content">
+        <div class="title">
+          <img src="../assets/images/logoTitle.png"/>
+        </div>
+        <p>
+          石家庄塔浠科技有限责任公司是国内领先的智慧养老解决方案与云服务提供商，公司总部位于石家庄市长安区，并在苏州设有研发和服务机构。塔浠科技主营：老年人服务、护理、健康监护、健康管理咨询、居家服务、护工培训、养老机构设立、康复设备研发销售、旅居服务等一系列服务。
+        </p>
+        <p>
+          玖久易养是塔浠科技有限责任公司旗下一款专门为老人研发的智慧养老系统。分为：老人端、子女端和社区端3个APP，让养老变得更简单。
+        </p>
       </div>
-      <pre>      玖久易养是利用物联网、大数据管理分析技术分析老人身体健康数据，并将老人数据信息可视化；利用互联网+服务使养老便捷化；利用AI人工智能，解决老年人日常护理、疾病自查、康复等。
-      我们致力于提高养老院对老人身体健康状况的检测水平，利用数据信息可视化的新型养老系统，使养老更便捷。</pre>
     </div>
   </div>
+
 </template>
 <script>
+import HeaderSpace from '../components/HeaderSpace'
 export default {
   name: 'about',
+  components: { HeaderSpace },
   data () {
     return {}
   },
@@ -19,39 +29,41 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.about {
-  padding: 10px;
-}
+.page {
+  background: #fff;
+  min-height: 100vh;
 
-.info-space {
-  padding: 10px;
-  border: 1px solid #eeeeee;
-  border-radius: 10px;
-  position: relative;
-  padding-top: 60px;
-  margin-top: 60px;
-  min-height: 65vh;
+  .about {
+    padding: 75px 15px;
+    .content {
+      position: relative;
+      border: 2px solid #25AEFF;
+      border-radius: 5px;
+      padding: 35px 15px 27px 15px;
 
-  .photo {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    overflow: hidden;
-    width: 60px;
-    width: 60px;
-    border-radius: 60px;
+      .title {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0 15px;
+        width: 180px;
+        background: #fff;
 
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
+        img {
+          width: 100%;
+        }
+
+        p {
+          word-break: break-all;
+          color: rgba(33,23,20,1);
+          line-height: 22px;
+          font-size: 12px;
+        }
+      }
     }
   }
-
-  pre {
-    word-break: break-all;
-    white-space: pre-wrap;
-  }
 }
+
+
 </style>

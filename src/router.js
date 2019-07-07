@@ -45,6 +45,13 @@ const router = new Router({
     },
     component: () => import('@/views/HistoricalRoute.vue')
   }, {
+    path: '/report',
+    name: 'report',
+    meta: {
+      title: '健康报告'
+    },
+    component: () => import('@/views/Report.vue')
+  }, {
     path: '/dataDetail/:type',
     name: 'dataDetail',
     meta: {
@@ -65,13 +72,13 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (store.state.accessToken || to.path === '/login') {
-    next()
-  } else {
-    notify('请先登录')
-    next({ path: '/login' })
-  }
-})
+// router.beforeEach((to, from, next) => {
+// //   if (store.state.accessToken || to.path === '/login') {
+// //     next()
+// //   } else {
+// //     notify('请先登录')
+// //     next({ path: '/login' })
+// //   }
+// // })
 
 export default router

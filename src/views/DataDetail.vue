@@ -1,26 +1,43 @@
 <template>
-  <div class="data-detail">
-    <div class="top-info">
-      <div class="info-space health">
-        <h2>98/120</h2>
-      </div>
-      <div class="tip-space">
-        <div class="health">正常</div>
-        <div class="danger">不正常</div>
-      </div>
-    </div>
+  <div class="page no-footer">
+    <header-space title="血氧"></header-space>
+    <div class="data-detail">
+      <div class="top-info">
+        <h4>血氧最新数据</h4>
+        <div class="info-card">
+          <div class="title-space">
+            血氧值
+          </div>
+          <div class="data-space">97% </div>
 
-    <div class="echart-space">
-      <chart-display></chart-display>
+          <div class="tip-space">
+            <div class="tip-item">
+              <div class="tip"></div>
+              <div>正常</div>
+            </div>
+            <div class="tip-item">
+              <div class="tip unhealth"></div>
+              <div>不正常</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="echart-space">
+        <chart-display></chart-display>
+      </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import ChartDisplay from '@/components/ChartDisplay'
+import HeaderSpace from '../components/HeaderSpace'
 export default {
   name: 'dataDetail',
   components: {
+    HeaderSpace,
     ChartDisplay
   },
   data () {
@@ -32,75 +49,78 @@ export default {
 
     const titleList = ['睡眠时间', '血压', '血氧', '心率']
 
-    // 发送事件, 切换顶部标题
-    this.$eventBus.$emit('handleHeader', {
-      title: titleList[type]
-    })
   }
 }
 </script>
 <style lang="less" scoped>
+.page {
+  min-height: 100vh;
+  background: #fff;
 
-.top-info {
-  height: 16rem;
-  background: #eeeeee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-
-  .info-space {
-    width: 9rem;
-    height: 9rem;
-    border-radius: 8rem;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -10px;
-
-    h2 {
-      font-size: 2rem;
-      letter-spacing: 3px;
+  .top-info {
+    padding: 12px;
+    h4 {
+      font-weight: normal;
+      font-size: 14px ;
     }
 
-    &.health {
-      background: linear-gradient(#c9eff9, #0eaeef);
+    .info-card {
+      width: 240px;
+      margin: 17px auto;
+
+      .title-space {
+        height: 33px;
+        line-height: 33px;
+        color: #fff;
+        padding: 0 12px;
+        font-size: 16px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        background: #25AEFF;
+      }
+
+      .data-space {
+        height: 43px;
+        line-height: 43px;
+        padding: 0 12px;
+        font-size: 16px;
+        background: #fff;
+        box-shadow:0px 2px 4px 0px rgba(0, 0, 0, 0.03);
+      }
+
+      .tip-space {
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+
+        .tip-item {
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+
+          .tip {
+            width: 34px;
+            height: 18px;
+            background: #25AEFF;
+            margin-right: 20px;
+
+            &.unhealth {
+              background: #C4C4C4;
+            }
+          }
+        }
+      }
+
     }
-    &.danger {
-      background: linear-gradient(#f36225, #e00606);
-    }
+
   }
 
-  .tip-space {
-    display: flex;
-    justify-content: center;
-    font-size: 10px;
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80vw;
-
-    & > div {
-      border-left: 50px solid red;
-      padding-left: 10px;
-      margin: 0 10px;
-
-      &.health {
-        border-left-color: #0eaeef;
-      }
-      &.danger {
-        border-left-color: #e00606;
-      }
-    }
+  .echart-space {
+    padding: 10px;
+    width: 100%;
+    height: calc(~'100vh - 22rem');
+    // background: yellow
   }
 }
 
-.echart-space {
-  padding: 10px;
-  width: 100%;
-  height: calc(~'100vh - 22rem');
-  // background: yellow
-}
 </style>

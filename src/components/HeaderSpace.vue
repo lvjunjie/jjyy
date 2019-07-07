@@ -1,99 +1,78 @@
 <template>
-  <div class="header">
-    <van-nav-bar :title="title" fixed>
-      <template v-if="path === '/index/home'">
-        <van-icon size="20" name="exchange" slot="left">
-          <van-dropdown-menu v-if="elderList.length > 0">
-            <van-dropdown-item v-model="elderId" :options="elderList" :change="choseItem()" />
-          </van-dropdown-menu>
-        </van-icon>
-        <van-icon size="20" name="location-o" slot="right" @click="goHisRoute()" />
-      </template>
-
-      <template v-else-if="path === '/index/myCenter'">
-        <!--<van-icon size="20" name="edit" slot="right" @click="goEditInfo()"/>-->
-      </template>
-
-      <template v-else-if="path === '/index/messages'">
-        <!--<van-icon size="20" name="edit" slot="right" @click="goEditInfo()"/>-->
-      </template>
-
-      <template v-else>
-        <van-icon size="20" name="arrow-left" slot="left" @click="goBack()" />
-      </template>
-    </van-nav-bar>
-  </div>
+  <header>
+    <div @click="goBack()">
+      <i class="fa fa-angle-left"></i>
+    </div>
+    <div class="title">
+      <h3>{{title}}</h3>
+    </div>
+    <div @click="rightAction()">
+      <h4>{{rightTitle}}</h4>
+    </div>
+  </header>
 </template>
 
 <script>
 export default {
   name: 'headerSpace',
-  props: ['elderList'],
+  props: ['title', 'rightTitle', 'rightAction'],
   data () {
     return {
-      title: '',
-      path: '',
-      elderId: ''
+
     }
   },
   watch: {
-    $route: {
-      handler (newVal) {
-        const { title } = newVal.meta
-        const path = newVal.path
 
-        this.path = path
-        if (title) {
-          this.title = title
-        }
-      },
-      immediate: true
-    },
-    elderList: {
-      handler () {
-        this.elderId = this.elderList[0].value
-      }
-    },
-    elderId: {
-      handler () {
-        this.$store.commit('updateState', {
-          elderId: this.elderId
-        })
-      }
-    }
   },
   methods: {
-    choseItem () {
-      // this.$store.commit("updateState", {
-      //   elderId: this.elderId
-      // });
-      // this.$eventBus.$emit('handleElderId')
-    },
-    goHisRoute () {
-      const path = '/index/hisRoute'
-      this.$router.push(path)
-    },
-    goEditInfo () {},
-    goBack () {
+    goBack() {
       this.$router.go(-1)
     }
 
   },
 
   created () {
-    this.$eventBus.$on('handleHeader', ({ path, title }) => {
-      this.$nextTick(() => {
-        this.title = title
-      })
-    })
+
   },
   mounted () {
-    setTimeout(() => {
-      console.log(this.elderList)
-    }, 2000)
-    // this.elderId = this.elderList[0].elderId
+
   }
 }
 </script>
 <style lang="less" scoped>
+  header {
+    height: 46px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 0 12px;
+    background: #25AEFF;
+
+    div:not(:nth-child(2)) {
+      width: 60px;
+    }
+
+    div:last-child {
+      text-align: right;
+    }
+
+    i {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-weight: 17px;
+    }
+
+    h4 {
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+
 </style>

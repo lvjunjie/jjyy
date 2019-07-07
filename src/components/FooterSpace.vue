@@ -1,7 +1,7 @@
 <template>
   <div class="footer" v-if="showFooter">
     <div class="menu-item" :key="index" v-for="(item, index) in menuList" @click="choseMenu(item)">
-      <van-icon size="20px" :color="item.active?'#029CFF':'#a8a8a8'" :name="item.icon"/>
+      <i :class="`fa ${item.icon} fa-2x ${item.active?'active':''}`"></i>
       <label :class="[item.active?'active':'']">{{item.name}}</label>
     </div>
   </div>
@@ -17,20 +17,20 @@ export default {
         {
           name: '首页',
           title: '玖久易养',
-          path: '/index/home',
-          icon: 'wap-home',
+          path: '/home',
+          icon: 'fa-home',
           active: false
         },
         {
           name: '消息中心',
-          path: '/index/messages',
-          icon: 'volume-o',
+          path: '/messages',
+          icon: 'fa-comment',
           active: false
         },
         {
           name: '我的',
-          path: '/index/myCenter',
-          icon: 'contact',
+          path: '/myCenter',
+          icon: 'fa-user',
           active: false
         }
       ]
@@ -69,7 +69,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .footer {
-  height: 46px;
+  height: 49px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -78,7 +78,7 @@ export default {
   width: 100%;
   bottom: 0;
   left: 0;
-  background: #f7f7f7;
+  background: #FFFFFF;
 
   .menu-item {
     display: flex;
@@ -86,12 +86,19 @@ export default {
     align-items: center;
     flex-wrap: wrap;
 
+    i {
+      color: #8a8a8a;
+      &.active {
+        color: #25AEFF;
+      }
+    }
+
     label {
       display: block;
       width: 100%;
       text-align: center;
       color: #a8a8a8;
-      font-size: 12px;
+      font-size: 10px;
 
       &.active {
         color: #029cff;

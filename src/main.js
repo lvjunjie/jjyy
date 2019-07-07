@@ -5,6 +5,7 @@ import store from './store'
 import moment from 'moment'
 import vant from 'vant'
 import 'vant/lib/index.css'
+import 'font-awesome/css/font-awesome.min.css'
 import echarts from 'echarts'
 
 import * as api from '@/api/api'

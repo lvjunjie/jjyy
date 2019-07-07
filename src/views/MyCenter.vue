@@ -1,139 +1,111 @@
 <template>
-  <div class="main">
-    <div class="info-list">
-      <ul>
-        <li :key="index" v-for="(item, index) in elderList">
-          <div class="left">
-            <img :src='item.elderheadPic' />
-          </div>
-          <div class="right">
-            <div class="title-space">
-              <h4>{{item.relation}}</h4>
-            </div>
-            <div>
-              <h5>{{item.elderName}}</h5>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+  <div class="page">
+    <header-space title="我的" right-title="编辑信息" :right-action="goEdit"></header-space>
+    <div class="myCenter">
+      <div class="photo-part">
+        <img src="../assets/temp.jpg">
+      </div>
 
-    <div class="link-space">
-      <van-cell-group>
-        <van-cell title="关于我们" is-link @click="goAbout()" />
-        <van-cell title="退出登录" is-link @click="checkOut()" />
-      </van-cell-group>
+      <div class="info-space">
+        <h4>父亲</h4>
+      </div>
+
+      <div class="menu-space">
+        <ul>
+          <li @click="goPage('/about')">
+            <h4>关于我们</h4>
+            <i class="fa fa-angle-right"></i>
+          </li>
+        </ul>
+      </div>
     </div>
+    <footer-space></footer-space>
+
   </div>
+
 </template>
 
 <script>
-import { clearStore } from '@/utils/common'
-export default {
-  name: 'myCenter',
-  components: {},
-  data () {
-    return {
-      manDefalutHead: require('../assets/temp.jpg'),
-      womenDefalutHead: require('../assets/temp.jpg'),
-      elderList: []
-    }
-  },
-  methods: {
-    goAbout () {
-      this.$router.push('/index/about')
+
+  import FooterSpace from '../components/FooterSpace'
+  import HeaderSpace from '../components/HeaderSpace'
+  export default {
+    name: 'myCenter',
+    components: { HeaderSpace, FooterSpace },
+    data () {
+      return {
+      }
     },
-    checkOut () {
-      clearStore()
-      this.$router.push('/login')
+    methods: {
+      goEdit() {
+        console.log(111)
+      },
+      goPage(path) {
+        this.$router.push(path)
+      }
     },
-    getElderList (contactorId) {
-      this.$http
-        .GetElderByContactorId({
-          contactorId
-        })
-        .then(res => {
-          if (res.length > 0) {
-            this.elderList = res.map((item) => {
-              if (!item.elderheadPic) {
-                item.elderheadPic = item.elderSex === 0 ? this.manDefalutHead : this.womenDefalutHead
-              }
-              return item
-            })
-          }
-        })
+    mounted () {
+
     }
-  },
-  mounted () {
-    const { userId } = this.$store.state
-    this.getElderList(userId)
   }
-}
 </script>
 
 <style lang="less" scoped>
-.info-list {
-  ul {
-    width: 100%;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    li {
-      padding: 5px;
-      border-bottom: 1px solid #dbdbdb;
-      width: 50%;
+  .myCenter {
+    padding: 0 12px;
+
+    .photo-part {
+      width: 79px;
+      height: 79px;
+      border-radius: 79px;
+      overflow: hidden;
+      margin: 24px auto 10px auto;
+      background: #fff;
+      border: 2px solid #fff;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .info-space {
       display: flex;
+      justify-content: center;
       align-items: center;
 
-      &:nth-child(odd) {
-        border-right: 1px solid #dbdbdb;
+      h4 {
+        font-weight: normal;
+        font-size: 16px;
       }
+    }
 
-      &:nth-child(1),
-      &:nth-child(2) {
-        border-top: 1px solid #dbdbdb;
-      }
-
-      .left {
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-
-        img {
+    .menu-space {
+      ul {
+        margin-top: 23px;
+        list-style: none;
+        li {
+          height: 60px;
           width: 100%;
-          height: 100%;
-          display: block;
-        }
-      }
-
-      .right {
-        flex: 1;
-        overflow: hidden;
-        padding: 0 10px;
-
-        .title-space {
+          background: #fff;
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          margin-bottom: 5px;
-          flex-wrap: nowrap;
+          justify-content: space-between;
+          padding: 0 15px;
+          font-size: 16px;
+
           h4 {
-            font-size: 14px;
-            word-break: keep-all;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: normal;
+            font-size: 16px;
           }
+
+          i {
+            font-size: 20px;
+          }
+
         }
       }
     }
   }
-}
-
-.link-space {
-  margin-top: 60px;
-}
 </style>

@@ -12,12 +12,30 @@
   box-sizing: border-box;
 }
 
+body {
+  background: #F7F7F7;
+}
+
 #app {
   font-family: "PingFangSC-regular", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #101010;
   font-size: 14px;
+
+  .page {
+    padding: 46px 0 49px 0;
+
+    &.no-nav {
+      padding-top: 0;
+    }
+
+    &.no-footer {
+      padding-bottom: 0;
+    }
+  }
+
+
 
   .fade-enter-active,
   .fade-leave-active {
