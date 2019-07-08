@@ -10,7 +10,7 @@
       </div>
       <div class="inputItem">
         <i class="fa fa-lock fa-2x" aria-hidden="true"></i>
-        <input type="password" placeholder="请输入密码" v-model="remember"/>
+        <input type="password" placeholder="请输入密码" v-model="password"/>
       </div>
 
       <button @click="login()" :disabled="isDisable">登录</button>

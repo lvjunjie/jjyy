@@ -41,7 +41,7 @@
       </div>
       <div class="mainSpace">
         <ul>
-          <li v-for="(item, index) in signList" @click="goPage(`/dataDetail/${item.signCode}`)">
+          <li :key="index" v-for="(item, index) in signList" @click="goPage(`/dataDetail/${item.signCode}`)">
             <div class="left">
               <img :src='item.typePic'/>
             </div>
@@ -63,6 +63,9 @@
 <script>
 import FooterSpace from '../components/FooterSpace'
 import xueyang from '@/assets/images/xueyang.png'
+import shuimian from '@/assets/images/shuimian.png'
+import xueya from '@/assets/images/xueya.png'
+import xinlv from '@/assets/images/xinlv.png'
 
 export default {
   name: 'home',
@@ -76,14 +79,14 @@ export default {
       signList: [{
         signCode: '',
         title: '睡眠',
-        typePic: xueyang,
+        typePic: shuimian,
         mark: '总时长',
         value: '',
         unit: ''
       }, {
         signCode: 'blood_pressure',
         title: '血压',
-        typePic: xueyang,
+        typePic: xueya,
         mark: '',
         value: '',
         unit: ''
@@ -97,7 +100,7 @@ export default {
       }, {
         signCode: 'heart_rate',
         title: '心率',
-        typePic: xueyang,
+        typePic: xinlv,
         mark: '',
         value: '',
         unit: ''

@@ -128,12 +128,6 @@ export default {
 
   }
 
-  .echart-space {
-    padding: 10px;
-    width: 100%;
-    height: calc(~'100vh - 22rem');
-    // background: yellow
-  }
 }
 
 </style>
