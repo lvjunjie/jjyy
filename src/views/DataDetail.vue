@@ -39,7 +39,8 @@ export default {
   },
   data() {
     return {
-      title: ""
+      title: "",
+      name: ''
     };
   },
   methods: {
