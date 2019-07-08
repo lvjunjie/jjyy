@@ -10,7 +10,7 @@
 <script>
 import HeaderSpace from '../components/HeaderSpace'
 export default {
-  name: 'about',
+  name: 'Report',
   components: { HeaderSpace },
   data () {
     return {}

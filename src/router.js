@@ -45,13 +45,6 @@ const router = new Router({
     },
     component: () => import('@/views/HistoricalRoute.vue')
   }, {
-    path: '/report',
-    name: 'report',
-    meta: {
-      title: '健康报告'
-    },
-    component: () => import('@/views/Report.vue')
-  }, {
     path: '/dataDetail/:type',
     name: 'dataDetail',
     meta: {
@@ -65,6 +58,13 @@ const router = new Router({
       title: '关于我们'
     },
     component: () => import('@/views/About.vue')
+  }, {
+    path: '/edit',
+    name: 'edit',
+    meta: {
+      title: '编辑'
+    },
+    component: () => import('@/views/Edit.vue')
   }, {
     path: '*',
     redirect: '/login'

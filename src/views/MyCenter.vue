@@ -38,7 +38,7 @@
     },
     methods: {
       goEdit() {
-        console.log(111)
+        this.$router.push('/edit')
       },
       goPage(path) {
         this.$router.push(path)
