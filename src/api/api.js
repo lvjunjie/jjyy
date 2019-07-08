@@ -47,3 +47,11 @@ export function GetAllMessages (params) {
     params
   })
 }
+
+export function GetSignRecordBySignCodeAndTimespan (params) {
+  return axios({
+    method: 'get',
+    url: 'services/app/SignRecords/GetSignRecordBySignCodeAndTimespan',
+    params
+  })
+}

@@ -1,14 +1,12 @@
 <template>
   <div class="page no-footer">
-    <header-space title="血氧"></header-space>
+    <header-space :title="title"></header-space>
     <div class="data-detail">
       <div class="top-info">
-        <h4>血氧最新数据</h4>
+        <h4>{{title}}最新数据</h4>
         <div class="info-card">
-          <div class="title-space">
-            血氧值
-          </div>
-          <div class="data-space">97% </div>
+          <div class="title-space">{{name}}</div>
+          <div class="data-space">97%</div>
 
           <div class="tip-space">
             <div class="tip-item">
@@ -28,42 +26,58 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import ChartDisplay from '@/components/ChartDisplay'
-import HeaderSpace from '../components/HeaderSpace'
+import ChartDisplay from "@/components/ChartDisplay";
+import HeaderSpace from "../components/HeaderSpace";
 export default {
-  name: 'dataDetail',
+  name: "dataDetail",
   components: {
     HeaderSpace,
     ChartDisplay
   },
-  data () {
-    return {}
+  data() {
+    return {
+      title: ""
+    };
   },
-  methods: {},
-  mounted () {
+  methods: {
+    getData(params) {
+      this.$http.GetSignRecordBySignCodeAndTimespan(params).then(res => {
 
-    const type = this.$route.params.type
+        console.log(res)
+      })
+    }
+  },
+  mounted() {
+    const type = this.$route.params.type;
 
     switch (type) {
-      case 'blood_pressure':
-        this.title = '血压'
+      case "blood_pressure":
+        this.title = "血压";
+        this.name = "收缩压/舒张压";
         break;
 
-      case 'blood_oxygen':
-        this.title = '血氧'
+      case "blood_oxygen":
+        this.title = "血氧";
+        this.name = "血氧值";
         break;
 
-      case 'heart_rate':
-        this.title = '心率'
+      case "heart_rate":
+        this.title = "心率";
+        this.name = "心率值";
         break;
     }
 
+    this.getData({
+      ElderId: 7,
+      signIdList: ['08d6fdc8-6a4e-3030-3a6e-c3ad6b71c8bd'],
+      StartTime: '',
+      EndTime: ''
+    })
   }
-}
+};
 </script>
 <style lang="less" scoped>
 .page {
@@ -74,7 +88,7 @@ export default {
     padding: 12px;
     h4 {
       font-weight: normal;
-      font-size: 14px ;
+      font-size: 14px;
     }
 
     .info-card {
@@ -89,7 +103,7 @@ export default {
         font-size: 16px;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
-        background: #25AEFF;
+        background: #25aeff;
       }
 
       .data-space {
@@ -98,7 +112,7 @@ export default {
         padding: 0 12px;
         font-size: 16px;
         background: #fff;
-        box-shadow:0px 2px 4px 0px rgba(0, 0, 0, 0.03);
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.03);
       }
 
       .tip-space {
@@ -114,20 +128,16 @@ export default {
           .tip {
             width: 34px;
             height: 18px;
-            background: #25AEFF;
+            background: #25aeff;
             margin-right: 20px;
 
             &.unhealth {
-              background: #C4C4C4;
+              background: #c4c4c4;
             }
           }
         }
       }
-
     }
-
   }
-
 }
-
 </style>

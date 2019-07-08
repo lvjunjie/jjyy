@@ -59,6 +59,13 @@ const router = new Router({
     },
     component: () => import('@/views/About.vue')
   }, {
+    path: '/report',
+    name: 'report',
+    meta: {
+      title: '编辑'
+    },
+    component: () => import('@/views/Report.vue')
+  }, {
     path: '/edit',
     name: 'edit',
     meta: {
