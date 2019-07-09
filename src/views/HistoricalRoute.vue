@@ -9,9 +9,9 @@
     </div>
 
     <div class="date-space">
-      <input @click="choseDate()"  readonly/>
+      <input @click="choseDate('StartTime')" v-model="StartTime" readonly/>
       <span>到</span>
-      <input @click="choseDate()"  readonly/>
+      <input @click="choseDate('EndTime')" v-model="EndTime" readonly/>
     </div>
 
     <van-popup
@@ -19,7 +19,7 @@
       position="bottom"
     >
       <van-datetime-picker
-        v-model="currentDate"
+        v-model="pickerCurDate"
         type="datetime"
         @confirm="confirmDate"
         @cancel="cancleDate"
@@ -43,40 +43,72 @@ export default {
   },
   data () {
     return {
+      StartTime:'',
+      EndTime: '',
       showDatePicker: false,
-      currentDate: new Date(),
+      pickerCurType: '',
+      pickerCurDate: '',
       center: { lng: 0, lat: 0 },
       zoom: 3,
-      polylinePath: [
-        { lng: 116.404, lat: 39.915 },
-        { lng: 116.405, lat: 39.920 },
-        { lng: 116.423493, lat: 39.907445 }
-      ]
+      polylinePath: []
     }
   },
   methods: {
     handler ({ BMap, map }) {
       console.log(BMap, map)
-      this.center.lng = 116.404
-      this.center.lat = 39.915
+      this.center.lng = 114.51473225567625
+      this.center.lat = 38.04232618270145
       this.zoom = 14
     },
 
-    choseDate() {
+    choseDate(type) {
+      this.pickerCurType = type
+      this.pickerCurDate = new Date(this[type])
+
       this.showDatePicker = true
     },
 
     confirmDate(value) {
-      console.log(value)
-
+      this[this.pickerCurType] = this.$moment(value).format('YYYY-MM-DD HH:mm')
       this.showDatePicker = false
+
+      this.getData()
     },
 
     cancleDate() {
       this.showDatePicker = false
+    },
+
+    intDate () {
+      this.StartTime = this.$moment(this.$moment().format('YYYY-MM-DD')).format('YYYY-MM-DD HH:mm')
+      this.EndTime = this.$moment().format('YYYY-MM-DD HH:mm'); 
+    },
+    getData() {
+      const curElderInfo = JSON.parse(sessionStorage.getItem("curElderInfo"));
+
+      this.$http.GetlocationHistroiesByTimespanAndElderId({
+        ElderId: curElderInfo.elderId,
+        StartTime: this.StartTime,
+        EndTime: this.EndTime
+      }).then(res => {
+        this.polylinePath = res.map(item=>{
+          const tempData = item.locationHistory
+
+          return {
+              lng: tempData.longitude,
+              lat: tempData.latitude
+          }
+        })
+
+      })
     }
   },
-  mounted () {}
+  mounted () {
+    this.intDate()
+
+    this.getData()
+
+  }
 }
 </script>
 <style lang="less" scoped>

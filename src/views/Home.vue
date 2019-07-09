@@ -14,10 +14,10 @@
         <div class="tab-part">
           <van-tabs
             v-if="elderList.length > 0"
-            v-model = "chosenIndex"
+            v-model="chosenIndex"
             type="line"
             background="transparent"
-            :border = 'false'
+            :border="false"
             color="#FFD800"
             title-active-color="#fff"
             line-height="4px"
@@ -27,120 +27,143 @@
           </van-tabs>
         </div>
         <div class="photo-part">
-          <img src="../assets/temp.jpg">
+          <img :src="elderInfo.elderheadPic || defaultPic" />
         </div>
 
         <div class="info-space">
           <h4>{{elderInfo.elderName}}</h4>
-          <i :class='["fa", {"fa-venus" : elderInfo.elderSex === 1}, {"fa-mars" : elderInfo.elderSex === 0}]'></i>
+          <i :class="['fa', {'fa-venus' : elderInfo.elderSex === 1}, {'fa-mars' : elderInfo.elderSex === 0}]"></i>
           <h4>{{elderInfo.elderAge}}</h4>
         </div>
         <div class="info-space">
-          <h4>2018-10-12 10:12:30</h4>
+          <h4>{{gentime}}</h4>
         </div>
       </div>
       <div class="mainSpace">
         <ul>
-          <li :key="index" v-for="(item, index) in signList" @click="goPage(`/dataDetail/${item.signCode}`)">
+          <li :key="index" v-for="(item, index) in signList" @click="showDetail(item)">
             <div class="left">
-              <img :src='item.typePic'/>
+              <img :src="item.typePic" />
             </div>
             <div class="center">
               <h4>{{item.title}}</h4>
-              <h1><span v-if="item.mark">{{item.mark}}</span> {{item.value? item.value + item.unit :'--'}}</h1>
+              <h1>
+                <span v-if="item.mark">{{item.mark}}</span>
+                {{item.value.length > 0? item.value.join('/') + item.unit :'--'}}
+              </h1>
             </div>
             <div class="right">
-              <img src="../assets/images/arrowRight.png"/>
+              <img src="../assets/images/arrowRight.png" />
             </div>
           </li>
         </ul>
       </div>
     </div>
-   <footer-space></footer-space>
+    <footer-space></footer-space>
   </div>
 </template>
 
 <script>
-import FooterSpace from '../components/FooterSpace'
-import xueyang from '@/assets/images/xueyang.png'
-import shuimian from '@/assets/images/shuimian.png'
-import xueya from '@/assets/images/xueya.png'
-import xinlv from '@/assets/images/xinlv.png'
+import FooterSpace from "../components/FooterSpace";
+import xueyang from "@/assets/images/xueyang.png";
+import shuimian from "@/assets/images/shuimian.png";
+import xueya from "@/assets/images/xueya.png";
+import xinlv from "@/assets/images/xinlv.png";
+import defaultPic from "@/assets/images/default.png";
 
 export default {
-  name: 'home',
+  name: "home",
   components: { FooterSpace },
-  data () {
+  data() {
     return {
       chosenIndex: 0,
-      elderId: '',
+      elderId: "",
       elderInfo: {},
       elderList: [],
-      signList: [{
-        signCode: '',
-        title: '睡眠',
-        typePic: shuimian,
-        mark: '总时长',
-        value: '',
-        unit: ''
-      }, {
-        signCode: 'blood_pressure',
-        title: '血压',
-        typePic: xueya,
-        mark: '',
-        value: '',
-        unit: ''
-      }, {
-        signCode: 'blood_oxygen',
-        title: '血氧',
-        typePic: xueyang,
-        mark: '',
-        value: '',
-        unit: ''
-      }, {
-        signCode: 'heart_rate',
-        title: '心率',
-        typePic: xinlv,
-        mark: '',
-        value: '',
-        unit: ''
-      }]
-    }
+      defaultPic: defaultPic,
+      gentime: '',
+      signList: [
+        //   {
+        //   signCode: '',
+        //   title: '睡眠',
+        //   typePic: shuimian,
+        //   mark: '总时长',
+        //   value: '',
+        //   unit: ''
+        // },
+        {
+          signCode: "blood_pressure",
+          title: "血压",
+          typePic: xueya,
+          mark: "",
+          signId: [],
+          value: [],
+          unit: ""
+        },
+        {
+          signCode: "blood_oxygen",
+          title: "血氧",
+          typePic: xueyang,
+          mark: "",
+          signId: [],
+          value: [],
+          unit: ""
+        },
+        {
+          signCode: "heart_rate",
+          title: "心率",
+          typePic: xinlv,
+          mark: "",
+          signId: [],
+          value: [],
+          unit: ""
+        }
+      ]
+    };
   },
   methods: {
-    goPage (path) {
-      this.$router.push(path)
+    goPage(path) {
+      this.$router.push(path);
     },
-    getElderList (contactorId) {
+    showDetail(item) {
+      sessionStorage.setItem(item.signCode, JSON.stringify(item.signId));
+        
+      this.goPage(`/dataDetail/${item.signCode}`);
+    },
+    getElderList(contactorId) {
       this.$http
         .GetElderByContactorId({
           contactorId
         })
         .then(res => {
           if (res.length > 0) {
-            this.elderList = res
+            this.elderList = res;
             // 默认选取第一个
 
-            const curElderInfo = JSON.parse(sessionStorage.getItem('curElderInfo'))
-            if(curElderInfo) {
-              this.chosenIndex = this.elderList.findIndex(item => item.elderId === curElderInfo.elderId)
-              if(this.chosenIndex >= 0) {
-                return this.choseElder(this.chosenIndex)
+            const curElderInfo = JSON.parse(
+              sessionStorage.getItem("curElderInfo")
+            );
+            if (curElderInfo) {
+              this.chosenIndex = this.elderList.findIndex(
+                item => item.elderId === curElderInfo.elderId
+              );
+              if (this.chosenIndex >= 0) {
+                return this.choseElder(this.chosenIndex);
               }
             }
 
-            this.choseElder(this.chosenIndex)
+            this.choseElder(this.chosenIndex);
           }
-        })
+        });
     },
-    choseElder (num) {
-      this.elderInfo = this.elderList[num]
+    choseElder(num) {
+      this.elderInfo = this.elderList[num];
       // 当前用户数据存入缓存
-      sessionStorage.setItem('curElderInfo', JSON.stringify(this.elderInfo))
+      sessionStorage.setItem("curElderInfo", JSON.stringify(this.elderInfo));
 
-      this.getInfo(this.elderInfo.elderId)
+      this.getInfo(this.elderInfo.elderId);
     },
-    getInfo (elderId) {
+    getInfo(elderId) {
       this.$http
         .GetElderInfoWithSignByElderId({
           elderId
@@ -149,148 +172,146 @@ export default {
           if (res) {
             // 处理体征数据
 
-            this.signList.forEach(item => item.value = '')
+            this.signList.forEach(signItem => {
+              // 重置数据
+              signItem.signId = [];
+              signItem.value = [];
 
-            let blood_pressure = []
-            res.signLastedRecord.forEach(item => {
-              if (item.signCode === 'low_blood_pressure') {
-                blood_pressure.push(item.signValue)
-              } else if (item.signCode === 'high_blood_pressure') {
-                blood_pressure.push(item.signValue)
-              } else {
-                let temp = this.signList.find(ite => ite.signCode === item.signCode)
-                temp.value = item.signValue
-              }
-            })
+              const tempRecordList = res.signLastedRecord.filter(
+                item => item.signCode.indexOf(signItem.signCode) >= 0
+              );
 
-            let tempPressure = this.signList.find(ite => ite.signCode === 'blood_pressure')
-            tempPressure.value = blood_pressure.join('/')
+              tempRecordList.forEach(item => {
+                signItem.signId.push(item.signId);
+                signItem.value.push(item.signValue);
+
+                signItem.gentime = this.$moment(item.gentime).format('YYYY-MM-DD HH:mm')
+              });
+            });
+
+            this.gentime = this.signList.find(item => item.gentime ).gentime
           }
-        })
+        });
     }
   },
 
-  mounted () {
-    const { userId } = this.$store.state
+  mounted() {
+    const { userId } = this.$store.state;
 
-    this.getElderList(userId)
+    this.getElderList(userId);
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
+.home {
+  .topSpace {
+    background: #25aeff;
+    padding: 25px;
+    .nav-part {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
 
-  .home {
-    .topSpace {
-      background: #25AEFF;
-      padding: 25px;
-      .nav-part {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: #fff;
-
-        i {
-          font-size: 20px;
-        }
-        h4 {
-          font-weight: normal;
-          font-size: 12px;
-        }
+      i {
+        font-size: 20px;
       }
-
-      .tab-part {
-        margin-top: 20px;
-
-        /deep/ .van-tab {
-          font-size: 16px !important;
-        }
+      h4 {
+        font-weight: normal;
+        font-size: 12px;
       }
-      .photo-part {
-        width: 60px;
-        height: 60px;
-        border-radius: 60px;
-        overflow: hidden;
-        margin: 10px auto;
-        background: #fff;
-        border: 2px solid #fff;
-
-        img {
-          display: block;
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-      .info-space {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-
-        h4 {
-          margin: 5px;
-          font-weight: normal;
-          font-size: 14px;
-        }
-      }
-
     }
 
-    .mainSpace {
-      padding: 15px 12px;
+    .tab-part {
+      margin-top: 20px;
 
-      ul {
+      /deep/ .van-tab {
+        font-size: 16px !important;
+      }
+    }
+    .photo-part {
+      width: 60px;
+      height: 60px;
+      border-radius: 60px;
+      overflow: hidden;
+      margin: 10px auto;
+      background: #fff;
+      border: 2px solid #fff;
+
+      img {
+        display: block;
         width: 100%;
-        li {
-          height: 82px;
-          background: #fff;
-          padding: 0 20px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 15px;
-          border-radius: 12px;
-          .left {
-            width: 38px;
-            height: 38px;
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
+        height: 100%;
+      }
+    }
 
-          .right {
-            width: 23px;
-            height: 23px;
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
-          .center {
-            flex: 1;
-            padding: 0 20px;
-            h4 {
-              font-size: 16px;
-              margin-bottom: 10px;
-              font-weight: normal;
-            }
-            h1 {
-              font-size: 24px;
-              opacity: 0.8;
+    .info-space {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
 
-              span {
-                font-size: 14px;
-                opacity: 0.8;
-                margin-right: 10px;
-              }
-            }
-          }
-
-        }
+      h4 {
+        margin: 5px;
+        font-weight: normal;
+        font-size: 14px;
       }
     }
   }
 
+  .mainSpace {
+    padding: 15px 12px;
+
+    ul {
+      width: 100%;
+      li {
+        height: 82px;
+        background: #fff;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        .left {
+          width: 38px;
+          height: 38px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .right {
+          width: 23px;
+          height: 23px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .center {
+          flex: 1;
+          padding: 0 20px;
+          h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: normal;
+          }
+          h1 {
+            font-size: 24px;
+            opacity: 0.8;
+
+            span {
+              font-size: 14px;
+              opacity: 0.8;
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>

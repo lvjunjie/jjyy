@@ -55,3 +55,19 @@ export function GetSignRecordBySignCodeAndTimespan (params) {
     params
   })
 }
+
+export function GetUserForEdit (params) {
+  return axios({
+    method: 'get',
+    url: 'services/app/User/GetUserForEdit',
+    params
+  })
+}
+
+export function GetlocationHistroiesByTimespanAndElderId (params) {
+  return axios({
+    method: 'get',
+    url: 'services/app/LocationHistories/GetlocationHistroiesByTimespanAndElderId',
+    params
+  })
+}

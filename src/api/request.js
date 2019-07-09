@@ -10,7 +10,7 @@ import { notify, verifyTokenOvertime } from '@/utils/common'
 
 const API_PATH = 'http://api.99yiyang.com/api/'
 
-axios.defaults.timeout = 5000 // 超时时间
+axios.defaults.timeout = 20000 // 超时时间
 axios.defaults.baseURL = API_PATH // 默认地址
 
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

@@ -6,7 +6,7 @@
         <h4>{{title}}最新数据</h4>
         <div class="info-card">
           <div class="title-space">{{name}}</div>
-          <div class="data-space">97%</div>
+          <div class="data-space">{{lastValue}}{{chartUnit}}</div>
 
           <div class="tip-space">
             <div class="tip-item">
@@ -22,7 +22,7 @@
       </div>
 
       <div class="echart-space">
-        <chart-display></chart-display>
+        <chart-display :chartData='chartData' :chartUnit='chartUnit' :chartTitle='title' :chartRange='chartRange'></chart-display>
       </div>
     </div>
   </div>
@@ -31,6 +31,7 @@
 <script>
 import ChartDisplay from "@/components/ChartDisplay";
 import HeaderSpace from "../components/HeaderSpace";
+
 export default {
   name: "dataDetail",
   components: {
@@ -40,43 +41,107 @@ export default {
   data() {
     return {
       title: "",
-      name: ''
+      name: "",
+      signIdList: [],
+      StartTime: "",
+      EndTime: "",
+      elderId: '',
+      lastValue: '',
+      chartData: [],
+      chartUnit: '',
+      chartTitle: '',
+      chartRange: []
     };
   },
   methods: {
     getData(params) {
-      this.$http.GetSignRecordBySignCodeAndTimespan(params).then(res => {
+      return new Promise((resolve, reject) => {
+        this.$http.GetSignRecordBySignCodeAndTimespan(params).then(res => {
+          resolve(res);
+        });
+      });
+    },
+    dealData(recordList) {
+      
+      let timeList = []
+      let dataList = []
 
-        console.log(res)
-      })
+      let tempDay = ''
+
+      dataList.push(recordList.map(item => {
+        
+        const day = this.$moment(item.timePoint).format('YYYY-MM-DD')
+        if(day === tempDay) {
+          timeList.push(this.$moment(item.timePoint).format('HH:mm'))
+        }else {
+          tempDay = day
+          timeList.push(this.$moment(item.timePoint).format('M月D日'))
+
+        }
+        return item.signRecords[0].value
+      }))
+      
+
+      this.chartData = {
+        timeList,
+        dataList
+      }
+    },
+    async handleData() {
+      if (this.signIdList.length > 1) {
+        // 血压特殊处理
+      } else {
+        const params = {
+          ElderId: this.elderId,
+          signIdList: this.signIdList.join(''),
+          StartTime: this.StartTime,
+          EndTime: this.EndTime
+        };
+
+        const recordList = await this.getData(params)
+        this.lastValue = recordList[recordList.length -1].signRecords[0].value
+        this.dealData(recordList)
+      }
     }
   },
   mounted() {
     const type = this.$route.params.type;
+    const curElderInfo = JSON.parse(sessionStorage.getItem("curElderInfo"));
+    this.signIdList = JSON.parse(sessionStorage.getItem(type));
+    this.elderId = curElderInfo.elderId
 
     switch (type) {
       case "blood_pressure":
         this.title = "血压";
         this.name = "收缩压/舒张压";
+        this.chartUnit = 'mmhg'
+        this.chartRange = [50, 170]
+    
         break;
 
       case "blood_oxygen":
         this.title = "血氧";
         this.name = "血氧值";
+        this.chartUnit = '%';
+        this.chartRange = [88, 102]
+
         break;
 
       case "heart_rate":
         this.title = "心率";
         this.name = "心率值";
+        this.chartUnit = 'bpm';
+        this.chartRange = [40, 110]
         break;
     }
 
-    this.getData({
-      ElderId: 7,
-      signIdList: ['08d6fdc8-6a4e-3030-3a6e-c3ad6b71c8bd'],
-      StartTime: '',
-      EndTime: ''
-    })
+    this.handleData()
+    // this.getData({
+    //   ElderId: curElderInfo.elderId,
+    //   signIdList: signId,
+    //   StartTime: "",
+    //   EndTime: ""
+    // });
   }
 };
 </script>

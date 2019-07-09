@@ -73,7 +73,7 @@ export default {
           this.list = [
             ...this.list,
             ...res.items.map(item => {
-              item.genTime = this.$moment(item.genTime, "YYYY-MM-dd HH:mm:ss");
+              item.messageTips.genTime = this.$moment(item.genTime).format("YYYY-MM-DD HH:mm");
               return item;
             })
           ];

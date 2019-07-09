@@ -3,11 +3,11 @@
     <header-space title="我的" right-title="编辑信息" :right-action="goEdit"></header-space>
     <div class="myCenter">
       <div class="photo-part">
-        <img src="../assets/temp.jpg">
+        <img :src="defaultPic">
       </div>
 
       <div class="info-space">
-        <h4>父亲</h4>
+        <h4>{{userInfo.name}}</h4>
       </div>
 
       <div class="menu-space">
@@ -29,11 +29,16 @@
 
   import FooterSpace from '../components/FooterSpace'
   import HeaderSpace from '../components/HeaderSpace'
+
+  import defaultPic from "@/assets/images/default.png";
+
   export default {
     name: 'myCenter',
     components: { HeaderSpace, FooterSpace },
     data () {
       return {
+        defaultPic: defaultPic,
+        userInfo: {}
       }
     },
     methods: {
@@ -42,10 +47,18 @@
       },
       goPage(path) {
         this.$router.push(path)
+      },
+      getData() {
+        this.$http.GetUserForEdit({
+          id: this.$store.state.userId
+        }).then(res => {
+          console.log(res)
+          this.userInfo = res.user
+        })
       }
     },
     mounted () {
-
+      this.getData()
     }
   }
 </script>
