@@ -37,9 +37,6 @@ export default {
 
         const {timeList, dataList} = this.chartData
 
-        console.log(this.chartData)
-
-        // return 
         const seriesConfig = dataList.map(item => {
           return {
             type: "line",
