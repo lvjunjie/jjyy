@@ -71,6 +71,8 @@ import xueya from '@/assets/images/xueya.png'
 import xinlv from '@/assets/images/xinlv.png'
 import defaultPic from '@/assets/images/default.png'
 
+import { notify } from '@/utils/common'
+
 export default {
   name: 'home',
   components: { FooterSpace },
@@ -82,7 +84,12 @@ export default {
       elderList: [],
       defaultPic: defaultPic,
       gentime: '',
-      signList: [
+      signList: []
+    }
+  },
+  methods: {
+    initSignList() {
+      this.signList = [
         //   {
         //   signCode: '',
         //   title: '睡眠',
@@ -119,13 +126,16 @@ export default {
           unit: ''
         }
       ]
-    }
-  },
-  methods: {
+    },
     goPage (path) {
       this.$router.push(path)
     },
     showDetail (item) {
+      if(item.value.length <= 0) {
+        return notify('暂无数据')
+      }
+
+
       sessionStorage.setItem(item.signCode, JSON.stringify(item.signId))
 
       this.goPage(`/dataDetail/${item.signCode}`)
@@ -160,6 +170,8 @@ export default {
       this.elderInfo = this.elderList[num]
       // 当前用户数据存入缓存
       sessionStorage.setItem('curElderInfo', JSON.stringify(this.elderInfo))
+
+      this.initSignList()
 
       this.getInfo(this.elderInfo.elderId)
     },

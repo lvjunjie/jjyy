@@ -33,16 +33,15 @@ axios.interceptors.request.use(
     const { accessToken } = store.state
     config.headers['Authorization'] = 'Bearer ' + accessToken
 
-    // if (accessToken && verifyTokenOvertime()) {
-    //   notify('您已超时，请重新登录')
-    //   return router.push('/login')
-    // } else {
-    //   Toast.loading()
-    //   return config
-    // }
-
-    Toast.loading()
-    return config
+    if (accessToken && verifyTokenOvertime()) {
+      notify('您已超时，请重新登录')
+      return router.push('/login')
+    } else {
+      Toast.loading({
+        duration: 0
+      })
+      return config
+    }
   },
   error => {
     Toast.clear()
