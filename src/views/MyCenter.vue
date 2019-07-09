@@ -27,40 +27,40 @@
 
 <script>
 
-  import FooterSpace from '../components/FooterSpace'
-  import HeaderSpace from '../components/HeaderSpace'
+import FooterSpace from '../components/FooterSpace'
+import HeaderSpace from '../components/HeaderSpace'
 
-  import defaultPic from "@/assets/images/default.png";
+import defaultPic from '@/assets/images/default.png'
 
-  export default {
-    name: 'myCenter',
-    components: { HeaderSpace, FooterSpace },
-    data () {
-      return {
-        defaultPic: defaultPic,
-        userInfo: {}
-      }
-    },
-    methods: {
-      goEdit() {
-        this.$router.push('/edit')
-      },
-      goPage(path) {
-        this.$router.push(path)
-      },
-      getData() {
-        this.$http.GetUserForEdit({
-          id: this.$store.state.userId
-        }).then(res => {
-          console.log(res)
-          this.userInfo = res.user
-        })
-      }
-    },
-    mounted () {
-      this.getData()
+export default {
+  name: 'myCenter',
+  components: { HeaderSpace, FooterSpace },
+  data () {
+    return {
+      defaultPic: defaultPic,
+      userInfo: {}
     }
+  },
+  methods: {
+    goEdit () {
+      this.$router.push('/edit')
+    },
+    goPage (path) {
+      this.$router.push(path)
+    },
+    getData () {
+      this.$http.GetUserForEdit({
+        id: this.$store.state.userId
+      }).then(res => {
+        console.log(res)
+        this.userInfo = res.user
+      })
+    }
+  },
+  mounted () {
+    this.getData()
   }
+}
 </script>
 
 <style lang="less" scoped>

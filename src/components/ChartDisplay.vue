@@ -13,49 +13,48 @@
 </template>
 
 <script>
-import "zrender/lib/svg/svg";
+import 'zrender/lib/svg/svg'
 
 export default {
-  name: "chartDisplay",
-  props: ["chartData", "chartUnit", "chartTitle", "chartRange"],
-  data() {
-    return {};
+  name: 'chartDisplay',
+  props: ['chartData', 'chartUnit', 'chartTitle', 'chartRange'],
+  data () {
+    return {}
   },
   methods: {},
   watch: {
     chartData: {
-      handler() {
-       
+      handler () {
         // 初始化
         const chart = this.$echarts.init(
-          document.getElementById("echart"),
+          document.getElementById('echart'),
           null,
           {
-            renderer: "svg"
+            renderer: 'svg'
           }
-        );
+        )
 
-        const {timeList, dataList} = this.chartData
+        const { timeList, dataList } = this.chartData
 
         const seriesConfig = dataList.map(item => {
           return {
-            type: "line",
-            symbol: "circle",
+            type: 'line',
+            symbol: 'circle',
             symbolSize: 4,
             data: item
-          };
-        });
+          }
+        })
 
         const chartOption = {
-          color: ["#863BEB", "#FC8C39"],
+          color: ['#863BEB', '#FC8C39'],
           grid: {
             left: 0,
             right: 0,
-            borderColor: "rgba(255,255,255,1)"
+            borderColor: 'rgba(255,255,255,1)'
           },
           dataZoom: [
             {
-              type: "inside",
+              type: 'inside',
               xAxisIndex: [0],
               startValue: 0,
               endValue: 10,
@@ -68,7 +67,7 @@ export default {
             boundaryGap: true,
             splitLine: {
               lineStyle: {
-                type: "dotted"
+                type: 'dotted'
               }
             },
             axisTick: {
@@ -80,12 +79,12 @@ export default {
           },
           yAxis: {
             min: this.chartRange[0],
-            max:  this.chartRange[1],
-            nameLocation: "end",
+            max: this.chartRange[1],
+            nameLocation: 'end',
             name: this.chartUnit,
             splitLine: {
               lineStyle: {
-                type: "dotted"
+                type: 'dotted'
               }
             },
             axisTick: {
@@ -102,15 +101,15 @@ export default {
             }
           },
           series: seriesConfig
-        };
+        }
 
-        chart.setOption(chartOption);
+        chart.setOption(chartOption)
       },
       deep: true
     }
   },
-  mounted() {}
-};
+  mounted () {}
+}
 </script>
 <style lang="less" scoped>
 h4 {

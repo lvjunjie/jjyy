@@ -35,29 +35,29 @@
 </template>
 
 <script>
-import HeaderSpace from "../components/HeaderSpace";
-import FooterSpace from "../components/FooterSpace";
+import HeaderSpace from '../components/HeaderSpace'
+import FooterSpace from '../components/FooterSpace'
 export default {
-  name: "messages",
+  name: 'messages',
   components: {
     FooterSpace,
     HeaderSpace
   },
-  data() {
+  data () {
     return {
       isLoading: false,
-      loading:false,
+      loading: false,
       finished: false,
       IsReadFilter: 0,
       SkipCount: 0,
       MaxResultCount: 15,
       list: [],
       totalCount: 0
-    };
+    }
   },
   methods: {
-    getMessages() {
-      const curElderInfo = JSON.parse(sessionStorage.getItem("curElderInfo"));
+    getMessages () {
+      const curElderInfo = JSON.parse(sessionStorage.getItem('curElderInfo'))
 
       this.$http
         .GetAllMessages({
@@ -67,32 +67,32 @@ export default {
           MaxResultCount: this.MaxResultCount
         })
         .then(res => {
-          this.isLoading = false;
-          this.loading = false;
-          this.totalCount = res.totalCount;
+          this.isLoading = false
+          this.loading = false
+          this.totalCount = res.totalCount
           this.list = [
             ...this.list,
             ...res.items.map(item => {
-              item.messageTips.genTime = this.$moment(item.genTime).format("YYYY-MM-DD HH:mm");
-              return item;
+              item.messageTips.genTime = this.$moment(item.genTime).format('YYYY-MM-DD HH:mm')
+              return item
             })
-          ];
+          ]
 
           if (this.list.length >= this.totalCount) {
-            this.finished = true;
+            this.finished = true
           }
-        });
+        })
     },
-    refresh() {
+    refresh () {
       // 重置条件
-      this.SkipCount = 0;
-      this.MaxResultCount = 15;
-      this.list = [];
+      this.SkipCount = 0
+      this.MaxResultCount = 15
+      this.list = []
 
-      this.getMessages();
+      this.getMessages()
     }
   },
-  mounted() {}
+  mounted () {}
 }
 </script>
 

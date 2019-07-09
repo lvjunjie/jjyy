@@ -43,7 +43,7 @@ export default {
   },
   data () {
     return {
-      StartTime:'',
+      StartTime: '',
       EndTime: '',
       showDatePicker: false,
       pickerCurType: '',
@@ -61,45 +61,44 @@ export default {
       this.zoom = 14
     },
 
-    choseDate(type) {
+    choseDate (type) {
       this.pickerCurType = type
       this.pickerCurDate = new Date(this[type])
 
       this.showDatePicker = true
     },
 
-    confirmDate(value) {
+    confirmDate (value) {
       this[this.pickerCurType] = this.$moment(value).format('YYYY-MM-DD HH:mm')
       this.showDatePicker = false
 
       this.getData()
     },
 
-    cancleDate() {
+    cancleDate () {
       this.showDatePicker = false
     },
 
     intDate () {
       this.StartTime = this.$moment(this.$moment().format('YYYY-MM-DD')).format('YYYY-MM-DD HH:mm')
-      this.EndTime = this.$moment().format('YYYY-MM-DD HH:mm'); 
+      this.EndTime = this.$moment().format('YYYY-MM-DD HH:mm')
     },
-    getData() {
-      const curElderInfo = JSON.parse(sessionStorage.getItem("curElderInfo"));
+    getData () {
+      const curElderInfo = JSON.parse(sessionStorage.getItem('curElderInfo'))
 
       this.$http.GetlocationHistroiesByTimespanAndElderId({
         ElderId: curElderInfo.elderId,
         StartTime: this.StartTime,
         EndTime: this.EndTime
       }).then(res => {
-        this.polylinePath = res.map(item=>{
+        this.polylinePath = res.map(item => {
           const tempData = item.locationHistory
 
           return {
-              lng: tempData.longitude,
-              lat: tempData.latitude
+            lng: tempData.longitude,
+            lat: tempData.latitude
           }
         })
-
       })
     }
   },
@@ -107,7 +106,6 @@ export default {
     this.intDate()
 
     this.getData()
-
   }
 }
 </script>

@@ -16,20 +16,20 @@
   </div>
 </template>
 <script>
-import HeaderSpace from "../components/HeaderSpace";
+import HeaderSpace from '../components/HeaderSpace'
 export default {
-  name: "Edit",
+  name: 'Edit',
   components: { HeaderSpace },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   methods: {
-    save() {
-      console.log(11);
+    save () {
+      console.log(11)
     }
   },
-  mounted() {}
-};
+  mounted () {}
+}
 </script>
 <style lang="less" scoped>
 .page {

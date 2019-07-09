@@ -64,20 +64,20 @@
 </template>
 
 <script>
-import FooterSpace from "../components/FooterSpace";
-import xueyang from "@/assets/images/xueyang.png";
-import shuimian from "@/assets/images/shuimian.png";
-import xueya from "@/assets/images/xueya.png";
-import xinlv from "@/assets/images/xinlv.png";
-import defaultPic from "@/assets/images/default.png";
+import FooterSpace from '../components/FooterSpace'
+import xueyang from '@/assets/images/xueyang.png'
+// import shuimian from '@/assets/images/shuimian.png'
+import xueya from '@/assets/images/xueya.png'
+import xinlv from '@/assets/images/xinlv.png'
+import defaultPic from '@/assets/images/default.png'
 
 export default {
-  name: "home",
+  name: 'home',
   components: { FooterSpace },
-  data() {
+  data () {
     return {
       chosenIndex: 0,
-      elderId: "",
+      elderId: '',
       elderInfo: {},
       elderList: [],
       defaultPic: defaultPic,
@@ -92,78 +92,78 @@ export default {
         //   unit: ''
         // },
         {
-          signCode: "blood_pressure",
-          title: "血压",
+          signCode: 'blood_pressure',
+          title: '血压',
           typePic: xueya,
-          mark: "",
+          mark: '',
           signId: [],
           value: [],
-          unit: ""
+          unit: ''
         },
         {
-          signCode: "blood_oxygen",
-          title: "血氧",
+          signCode: 'blood_oxygen',
+          title: '血氧',
           typePic: xueyang,
-          mark: "",
+          mark: '',
           signId: [],
           value: [],
-          unit: ""
+          unit: ''
         },
         {
-          signCode: "heart_rate",
-          title: "心率",
+          signCode: 'heart_rate',
+          title: '心率',
           typePic: xinlv,
-          mark: "",
+          mark: '',
           signId: [],
           value: [],
-          unit: ""
+          unit: ''
         }
       ]
-    };
+    }
   },
   methods: {
-    goPage(path) {
-      this.$router.push(path);
+    goPage (path) {
+      this.$router.push(path)
     },
-    showDetail(item) {
-      sessionStorage.setItem(item.signCode, JSON.stringify(item.signId));
-        
-      this.goPage(`/dataDetail/${item.signCode}`);
+    showDetail (item) {
+      sessionStorage.setItem(item.signCode, JSON.stringify(item.signId))
+
+      this.goPage(`/dataDetail/${item.signCode}`)
     },
-    getElderList(contactorId) {
+    getElderList (contactorId) {
       this.$http
         .GetElderByContactorId({
           contactorId
         })
         .then(res => {
           if (res.length > 0) {
-            this.elderList = res;
+            this.elderList = res
             // 默认选取第一个
 
             const curElderInfo = JSON.parse(
-              sessionStorage.getItem("curElderInfo")
-            );
+              sessionStorage.getItem('curElderInfo')
+            )
             if (curElderInfo) {
               this.chosenIndex = this.elderList.findIndex(
                 item => item.elderId === curElderInfo.elderId
-              );
+              )
               if (this.chosenIndex >= 0) {
-                return this.choseElder(this.chosenIndex);
+                return this.choseElder(this.chosenIndex)
               }
             }
 
-            this.choseElder(this.chosenIndex);
+            this.choseElder(this.chosenIndex)
           }
-        });
+        })
     },
-    choseElder(num) {
-      this.elderInfo = this.elderList[num];
+    choseElder (num) {
+      this.elderInfo = this.elderList[num]
       // 当前用户数据存入缓存
-      sessionStorage.setItem("curElderInfo", JSON.stringify(this.elderInfo));
+      sessionStorage.setItem('curElderInfo', JSON.stringify(this.elderInfo))
 
-      this.getInfo(this.elderInfo.elderId);
+      this.getInfo(this.elderInfo.elderId)
     },
-    getInfo(elderId) {
+    getInfo (elderId) {
       this.$http
         .GetElderInfoWithSignByElderId({
           elderId
@@ -171,36 +171,35 @@ export default {
         .then(res => {
           if (res) {
             // 处理体征数据
-
             this.signList.forEach(signItem => {
               // 重置数据
-              signItem.signId = [];
-              signItem.value = [];
+              signItem.signId = []
+              signItem.value = []
 
               const tempRecordList = res.signLastedRecord.filter(
                 item => item.signCode.indexOf(signItem.signCode) >= 0
-              );
+              )
 
               tempRecordList.forEach(item => {
-                signItem.signId.push(item.signId);
-                signItem.value.push(item.signValue);
+                signItem.signId.push(item.signId)
+                signItem.value.push(item.signValue)
 
                 signItem.gentime = this.$moment(item.gentime).format('YYYY-MM-DD HH:mm')
-              });
-            });
+              })
+            })
 
-            this.gentime = this.signList.find(item => item.gentime ).gentime
+            this.gentime = this.signList.find(item => item.gentime).gentime
           }
-        });
+        })
     }
   },
 
-  mounted() {
-    const { userId } = this.$store.state;
+  mounted () {
+    const { userId } = this.$store.state
 
-    this.getElderList(userId);
+    this.getElderList(userId)
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
