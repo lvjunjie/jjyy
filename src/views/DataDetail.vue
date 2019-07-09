@@ -22,7 +22,12 @@
       </div>
 
       <div class="echart-space">
-        <chart-display :chartData='chartData' :chartUnit='chartUnit' :chartTitle='title' :chartRange='chartRange'></chart-display>
+        <chart-display
+          :chartData="chartData"
+          :chartUnit="chartUnit"
+          :chartTitle="title"
+          :chartRange="chartRange"
+        ></chart-display>
       </div>
     </div>
   </div>
@@ -45,11 +50,11 @@ export default {
       signIdList: [],
       StartTime: "",
       EndTime: "",
-      elderId: '',
-      lastValue: '',
+      elderId: "",
+      lastValue: "",
       chartData: [],
-      chartUnit: '',
-      chartTitle: '',
+      chartUnit: "",
+      chartTitle: "",
       chartRange: []
     };
   },
@@ -62,45 +67,81 @@ export default {
       });
     },
     dealData(recordList) {
-      
-      let timeList = []
-      let dataList = []
+      let timeList = [];
+      let dataList = [];
 
-      let tempDay = ''
+      let tempDay = "";
 
-      dataList.push(recordList.map(item => {
-        
-        const day = this.$moment(item.timePoint).format('YYYY-MM-DD')
-        if(day === tempDay) {
-          timeList.push(this.$moment(item.timePoint).format('HH:mm'))
-        }else {
-          tempDay = day
-          timeList.push(this.$moment(item.timePoint).format('M月D日'))
-
-        }
-        return item.signRecords[0].value
-      }))
-      
+      dataList.push(
+        recordList.map(item => {
+          const day = this.$moment(item.timePoint).format("YYYY-MM-DD");
+          if (day === tempDay) {
+            timeList.push(this.$moment(item.timePoint).format("HH:mm"));
+          } else {
+            tempDay = day;
+            timeList.push(this.$moment(item.timePoint).format("M月D日"));
+          }
+          return item.signRecords[0].value;
+        })
+      );
 
       this.chartData = {
         timeList,
         dataList
-      }
+      };
+    },
+    dealPressureData(recordListA, recordListB) {
+      let timeList = [];
+      let dataListA = [];
+      let dataListB = [];
+
+      let tempDay = "";
+
+      recordListA.forEach(itemA => {
+        const tempB = recordListB.find(
+          itemB => itemA.timePoint === itemB.timePoint
+        );
+        if (tempB) {
+          const day = this.$moment(itemA.timePoint).format("YYYY-MM-DD");
+          if (day === tempDay) {
+            timeList.push(this.$moment(itemA.timePoint).format("HH:mm"));
+          } else {
+            tempDay = day;
+            timeList.push(this.$moment(itemA.timePoint).format("M月D日"));
+          }
+          dataListA.push(itemA.signRecords[0].value)
+          dataListB.push(tempB.signRecords[0].value)
+
+        }
+      });
+      this.chartData = {
+        timeList,
+        dataList: [dataListA, dataListB]
+      };
+
     },
     async handleData() {
+      const params = {
+        ElderId: this.elderId,
+        signIdList: this.signIdList.join(""),
+        StartTime: this.StartTime,
+        EndTime: this.EndTime
+      };
+
       if (this.signIdList.length > 1) {
         // 血压特殊处理
-      } else {
-        const params = {
-          ElderId: this.elderId,
-          signIdList: this.signIdList.join(''),
-          StartTime: this.StartTime,
-          EndTime: this.EndTime
-        };
+        if (this.signIdList.length == 2) {
+          params.signIdList = this.signIdList[0];
+          const recordListA = await this.getData(params);
+          params.signIdList = this.signIdList[1];
+          const recordListB = await this.getData(params);
 
-        const recordList = await this.getData(params)
-        this.lastValue = recordList[recordList.length -1].signRecords[0].value
-        this.dealData(recordList)
+          this.dealPressureData(recordListA, recordListB);
+        }
+      } else {
+        const recordList = await this.getData(params);
+        this.lastValue = recordList[recordList.length - 1].signRecords[0].value;
+        this.dealData(recordList);
       }
     }
   },
@@ -108,34 +149,34 @@ export default {
     const type = this.$route.params.type;
     const curElderInfo = JSON.parse(sessionStorage.getItem("curElderInfo"));
     this.signIdList = JSON.parse(sessionStorage.getItem(type));
-    this.elderId = curElderInfo.elderId
+    this.elderId = curElderInfo.elderId;
 
     switch (type) {
       case "blood_pressure":
         this.title = "血压";
         this.name = "收缩压/舒张压";
-        this.chartUnit = 'mmhg'
-        this.chartRange = [50, 170]
-    
+        this.chartUnit = "mmhg";
+        this.chartRange = [50, 170];
+
         break;
 
       case "blood_oxygen":
         this.title = "血氧";
         this.name = "血氧值";
-        this.chartUnit = '%';
-        this.chartRange = [88, 102]
+        this.chartUnit = "%";
+        this.chartRange = [88, 102];
 
         break;
 
       case "heart_rate":
         this.title = "心率";
         this.name = "心率值";
-        this.chartUnit = 'bpm';
-        this.chartRange = [40, 110]
+        this.chartUnit = "bpm";
+        this.chartRange = [40, 110];
         break;
     }
 
-    this.handleData()
+    this.handleData();
     // this.getData({
     //   ElderId: curElderInfo.elderId,
     //   signIdList: signId,
