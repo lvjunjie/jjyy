@@ -88,7 +88,7 @@ export default {
     }
   },
   methods: {
-    initSignList() {
+    initSignList () {
       this.signList = [
         //   {
         //   signCode: '',
@@ -131,10 +131,9 @@ export default {
       this.$router.push(path)
     },
     showDetail (item) {
-      if(item.value.length <= 0) {
+      if (item.value.length <= 0) {
         return notify('暂无数据')
       }
-
 
       sessionStorage.setItem(item.signCode, JSON.stringify(item.signId))
 
