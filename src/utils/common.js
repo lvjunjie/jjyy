@@ -29,7 +29,7 @@ export function initToken (data) {
 
   store.commit('updateState', {
     accessToken,
-    expireInSeconds,
+    expireInSeconds: expireInSeconds * 1000,
     endSeconds,
     userId
   })

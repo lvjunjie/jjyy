@@ -160,7 +160,7 @@ export default {
 
         break
 
-      case 'blood_oxygen':
+      case 'blood_oxygen':  
         this.title = '血氧'
         this.name = '血氧值'
         this.chartUnit = '%'
@@ -177,7 +177,7 @@ export default {
     }
 
     // 默认最近两天的数据
-    this.EndTime = this.$moment().format('YYYY-MM-DD')
+    this.EndTime = this.$moment()
     this.StartTime = this.$moment(this.EndTime)
       .subtract(2, 'days')
       .format('YYYY-MM-DD')
