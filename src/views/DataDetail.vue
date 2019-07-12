@@ -62,7 +62,9 @@ export default {
     getData (params) {
       return new Promise((resolve, reject) => {
         this.$http.GetSignRecordBySignCodeAndTimespan(params).then(res => {
-          resolve(res)
+          if (res.length > 0) {
+            resolve(res)
+          }
         })
       })
     },
@@ -174,13 +176,12 @@ export default {
         break
     }
 
+    // 默认最近两天的数据
+    this.EndTime = this.$moment().format('YYYY-MM-DD')
+    this.StartTime = this.$moment(this.EndTime)
+      .subtract(2, 'days')
+      .format('YYYY-MM-DD')
     this.handleData()
-    // this.getData({
-    //   ElderId: curElderInfo.elderId,
-    //   signIdList: signId,
-    //   StartTime: "",
-    //   EndTime: ""
-    // });
   }
 }
 </script>
